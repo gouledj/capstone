@@ -30,7 +30,6 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -81,7 +80,7 @@ WSGI_APPLICATION = 'El_Hajj_Rentals.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'DB',
+        'NAME': 'storeData',
         'USER': 'root',
         'PASSWORD': 'MacEwan-315',
         'HOST': '127.0.0.1',
