@@ -1,8 +1,8 @@
-<h1>CMPT 315 Project</h1>
+<h1>CMPT 496 Project</h1>
 
 Requirements:
 
-- Django (El_Hajj_Rentals)
+- Django (store)
 - React (frontend)
 - MySQL (api)
 
