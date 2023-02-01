@@ -2,6 +2,7 @@
 
 Requirements:
 
+
 - Django (store)
 - React (frontend)
 - MySQL (api)
