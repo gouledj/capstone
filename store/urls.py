@@ -1,4 +1,4 @@
-"""El_Hajj_Rentals URL Configuration
+"""Store URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -20,7 +20,11 @@ from rest_framework import routers
 from api import views
 
 router = routers.DefaultRouter()
-router.register(r'rentals', views.RentalView, 'Rental')
+router.register(r'Customer', views.CustomerView, 'Customer')
+router.register(r'Products', views.ProductView, 'Products')
+router.register(r'Orders', views.OrderView, 'Orders')
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -2,7 +2,8 @@
 
 Requirements:
 
-- Django (El_Hajj_Rentals)
+- Django (Store)
+
 - React (frontend)
 - MySQL (api)
 

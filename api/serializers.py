@@ -1,44 +1,46 @@
 from rest_framework import serializers
-from .models import Rental, Customer, Employee, CarType, Car, Branch
-
-
-class RentalSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Rental
-        fields = ('rentalID', 'dateFrom', 'dateTo', 'dateReturned',
-                  'totalCost', 'licensePlate', 'goldMember')
+from .models import Customer, Products, Cart, Types, Orders
 
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ('customerID', 'firstName', 'lastName', 'driversLicense', 'email', 'customerPhone', 'dob',
-                  'goldMember', 'province', 'city', 'postalCode', 'streetNumber', 'streetName', 'unitNumber')
+        fields = ('customer_id', 'firstName', 'lastName', 'customerPhone',
+                  'email', 'streetName', 'streetNumber','unit', 'postal_code', 'city','province',
+                  'card_name', 'card_address', 'card_number', 'card_expire_date', 'cvc_number','orders', 'Cart'
+
+                  )
 
 
-class EmployeeSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Employee
-        fields = ('employeeID', 'firstName', 'lastName', 'email', 'employeePhone', 'password', 'salt', 'salary', 'dob',
-                  'goldMember', 'province', 'city', 'postalCode', 'streetNumber', 'streetName', 'unitNumber')
+        model = Products
+        fields = ('product_id', 'product_name', 'product_description', 'product_quantity', 'product_price', 'product_price_sale', 'product_available',
+                  'product_weight', 'product_height', 'product_weight', 'type_foreign_key')
 
 
-class CarSerializer(serializers.ModelSerializer):
+class OrderSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Car
-        fields = ('carID', 'manufacturer', 'model', 'fueldType',
-                  'color', 'licensePlate', 'status', 'mileage')
+        model = Orders
+        fields = ('order_id','order_time', 'orde_total', 'item_order_id')
 
 
-class CarTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CarType
-        fields = ('typeId', 'description', 'dailyCost', 'weeklyCost',
-                  'monthlyCost', 'lateFee', 'changeBranchFee')
+# class CartSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Cart
+#         fields = ('cart_id', 'items')
 
 
-class BranchSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Branch
-        fields = ('branchID', 'branchPhone', 'province', 'city',
-                  'postalCode', 'streetNumber', 'streetName', 'unitNumber')
+# class TypesSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Types
+#         fields = ('type_id', 'type_name')
+
+
+# class CarTypeSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = CarType
+#         fields = ('typeId', 'description', 'dailyCost', 'weeklyCost',
+#                   'monthlyCost', 'lateFee', 'changeBranchFee')
+
+

@@ -1,81 +1,81 @@
 from django.db import models
 
-# Create your models here.
+class Item_Orders(models.Model):
+    item_order_id = models.AutoField(primary_key=True)
+    item_order_quantity = models.IntegerField()
+    item_order_price =models.FloatField()
 
 
-class Rental(models.Model):
-    rentalID = models.AutoField(primary_key=True)
-    dateFrom = models.DateField()
-    dateTo = models.DateField()
-    dateReturned = models.DateField()
-    totalCost = models.FloatField()
-    licensePlate = models.CharField(max_length=100)
-    goldMember = models.BooleanField()
+class Types(models.Model):
+    type_id = models.AutoField(primary_key=True)
+    type_name = models.CharField(max_length=50)
+
+
+class Cart(models.Model):
+    cart_id = models.AutoField(primary_key=True)
+    items = models.ManyToManyField('Products', related_name='carts')
+
+class Orders(models.Model):
+    order_id = models.AutoField(primary_key=True)
+    order_time = models.DateField()
+    orde_total = models.IntegerField()
+
+    # product_ordered = models.ForeignKey('Products', on_delete=models.CASCADE)
+
+
+    # item_order_id = models.ForeignKey(Item_Orders, on_delete=models.CASCADE)
+    item_order_id = models.ForeignKey('Products', on_delete=models.CASCADE)
 
 
 class Customer(models.Model):
-    customerID = models.AutoField(primary_key=True)
+    #customer info
+    customer_id = models.AutoField(primary_key=True)
     firstName = models.CharField(max_length=100)
     lastName = models.CharField(max_length=100)
-    driversLicense = models.CharField(max_length=100)
-    email = models.EmailField()
     customerPhone = models.IntegerField()
-    dob = models.DateField()
-    goldMember = models.BooleanField()
-    province = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    postalCode = models.CharField(max_length=100)
-    streetNumber = models.IntegerField()
-    streetName = models.CharField(max_length=100)
-    unitNumber = models.IntegerField()
+    email = models.CharField(max_length=50)
+    streetName = models.CharField(max_length=20)
+    streetNumber = models.CharField(max_length=20)
+    unit = models.IntegerField()
+    postal_code = models.CharField(max_length=8)
+    city = models.CharField(max_length=60)
+    province = models.CharField(max_length=60)
+    country = models.CharField(max_length=60)
+
+    #card info
+    card_name = models.CharField(max_length=60)
+    #note for card field we'll just have one field where the user puts their card info in.
+    card_address = models.CharField(max_length=60)
+    card_number = models.IntegerField(max_length=17, default=1)
+    card_expire_date = models.DateField()
+    cvc_number =  models.IntegerField(max_length=4)
+
+    orders = models.ManyToManyField(Orders, related_name="Orders", blank=True)
+    Cart = models.ManyToManyField(Cart, related_name="Cart", blank=True)
 
 
-class Employee(models.Model):
-    employeeID = models.AutoField(primary_key=True)
-    firstName = models.CharField(max_length=100)
-    lastName = models.CharField(max_length=100)
-    email = models.EmailField()
-    employeePhone = models.IntegerField()
-    password = models.CharField(max_length=100)
-    salt = models.CharField(max_length=100)
-    salary = models.FloatField()
-    dob = models.DateField()
-    goldMember = models.BooleanField()
-    province = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    postalCode = models.CharField(max_length=100)
-    streetNumber = models.IntegerField()
-    streetName = models.CharField(max_length=100)
-    unitNumber = models.IntegerField()
+
+    #Each  customer has a cart field that can dynamically change
+
+    #good state  of database
+    # Order_foreign_key = models.ForeignKey(Orders, on_delete=models.CASCADE, blank=True, null=True)
+    # order_list = models.ManyToManyField(, related_name='carts')
+
+    #This cart field will be treated as an object 
+    # cart = models.ForeignKey(Cart, on_delete=models.CASCADE, blank=True, null=True)
 
 
-class Car(models.Model):
-    carID = models.AutoField(primary_key=True)
-    manufacturer = models.CharField(max_length=100)
-    model = models.CharField(max_length=100)
-    fuelType = models.CharField(max_length=100)
-    color = models.CharField(max_length=100)
-    licensePlate = models.CharField(max_length=100)
-    status = models.CharField(max_length=100)
-    mileage = models.IntegerField()
+class Products(models.Model):
+     product_id = models.AutoField(primary_key=True)
+     product_name = models.CharField(max_length=80)
+     product_description = models.CharField(max_length=200)
+     product_quantity = models.IntegerField()
+     product_price = models.FloatField()
+     product_price_sale = models.FloatField()
+     product_available = models.BooleanField()
+     product_weight = models.FloatField()
+     product_height = models.FloatField()
+     product_weight = models.FloatField()
 
+     type_foreign_key = models.ManyToManyField(Types, related_name="Types", blank=True )
 
-class CarType(models.Model):
-    typeID = models.AutoField(primary_key=True)
-    description = models.CharField(max_length=100)
-    dailyCost = models.FloatField()
-    weeklyCost = models.FloatField()
-    monthlyCost = models.FloatField()
-    lateFee = models.FloatField()
-    changeBranchFee = models.FloatField()
-
-
-class Branch(models.Model):
-    branchID = models.AutoField(primary_key=True)
-    branchPhone = models.IntegerField()
-    province = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    postalCode = models.CharField(max_length=100)
-    streetNumber = models.IntegerField()
-    streetName = models.CharField(max_length=100)
-    unitNumber = models.IntegerField()
