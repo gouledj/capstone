@@ -1,0 +1,8 @@
+.navbar {
+  padding-bottom: 3rem;
+}
+
+.CRUD-products {
+  display: flex;
+  justify-content: center;
+}

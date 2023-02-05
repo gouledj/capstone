@@ -14,6 +14,10 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import AdminNavbar from './AdminNavbar.js';
 
+import SearchBar from "../SearchBar.js"
+import AdminPage from './AdminPage.css'
+import Stack from '@mui/material/Stack';
+
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -27,11 +31,21 @@ function adminPage() {
 
 
   return (
+    <>
+      <div className="navbar">
+        <AdminNavbar />
+      </div>
+      <div className="right-side">
+        <SearchBar />
+        <div className="CRUD-products">
+          <Button className="add-product" variant="contained">Add a Product</Button>
+        </div>
+      </div>
 
-    <div className="navbar">
-      <AdminNavbar />
 
-    </div>
+    </>
+
+
   )
 }
 
