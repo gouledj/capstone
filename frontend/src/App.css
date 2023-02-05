@@ -1,9 +1,11 @@
 .App {
   text-align: center;
   color: white;
+  display: grid;
 }
 
 
 body {
   background-color: #14192F;
+  margin: 0;
 }
