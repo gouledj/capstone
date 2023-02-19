@@ -1,9 +1,23 @@
-.search-bar {
+/* .search-bar {
   display: grid;
   justify-content: center;
   position: absolute;
   right: 0;
   padding-right: 5rem;
+  top: 155px;
+} */
+
+.search-bar {
+  display: flex;
+  align-self: center;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  padding-right: 2rem;
+  /* padding: 5rem; */
+}
+
+.item-flex {
+  display: block;
 }
 
 body {
