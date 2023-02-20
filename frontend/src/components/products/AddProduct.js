@@ -40,56 +40,76 @@ export default function AddProduct() {
     const true_value = true;
 
     console.log("post values")
-    console.log(fileurl)
-
-    //   let form_data = new FormData();
-
-
-    //   form_data.append('product_name', productName);
-    //   form_data.append('product_description', productDescription);
-    //   form_data.append('product_quantity', productQuantity);
-    //   form_data.append('product_price', productPrice);
-    //   form_data.append('product_price_sale', productPriceSale)
-    //   form_data.append('image', fileurl);
-    //   let url = 'http://localhost:8000/api/Products/';
-    //   axios.post(url, form_data, {
-    //     headers: {
-    //       'content-type': 'multipart/form-data'
-    //     }
-    //   })
-    //     .then(res => {
-    //       console.log(res.data);
-    //     })
-    //     .catch(err => console.log(err))
-    // };
-
-    //   form_data.append('image', fileurl)
 
     let form_data = new FormData();
-    console.log(fileurl, fileurl.name)
+    form_data.append('product_name', productName);
+    form_data.append('product_description', productDescription);
+    form_data.append('product_quantity', productQuantity);
+    form_data.append('product_price', productPrice);
+    form_data.append('product_height', productHeight);
+    form_data.append('product_price_sale', productPriceSale)
+    form_data.append('product_weight', productWeight);
     form_data.append('image', fileurl, fileurl.name);
-
-    axios.post("http://127.0.0.1:8000/api/Products/", {
-      product_name: productName,
-      product_description: productDescription,
-      product_quantity: Number(productQuantity),
-      product_price: Number(productPrice),
-      product_price_sale: Number(productPriceSale),
-      // product_available: "True",
-      product_weight: Number(productWeight),
-      product_height: Number(productHeight),
-      image: form_data,
+    let url = 'http://localhost:8000/api/Products/';
+    axios.post(url, form_data, {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
     })
-      .then(function (response) {
-        console.log(response);
+      .then(res => {
+        console.log(res.data);
       })
-      .catch(function (error) {
-        console.log(error);
-      });
+      .catch(err => console.log(err))
 
     setOpen(false);
+  };
 
-  }
+
+
+
+  //   form_data.append('image', fileurl);
+  //   let url = 'http://localhost:8000/api/Products/';
+  //   axios.post(url, form_data, {
+  //     headers: {
+  //       'content-type': 'multipart/form-data'
+  //     }
+  //   })
+  //     .then(res => {
+  //       console.log(res.data);
+  //     })
+  //     .catch(err => console.log(err))
+  // };
+
+  //   form_data.append('image', fileurl)
+
+  // let form_data = new FormData();
+  // // console.log(fileurl, fileurl.name)
+  // form_data.append('image', fileurl, fileurl.name);
+  // console.log(form_data.image)
+
+  // axios.post("http://127.0.0.1:8000/api/Products/", {
+  //   product_name: productName,
+  //   product_description: productDescription,
+  //   product_quantity: Number(productQuantity),
+  //   product_price: Number(productPrice),
+  //   product_price_sale: Number(productPriceSale),
+  //   // product_available: "True",
+  //   product_weight: Number(productWeight),
+  //   product_height: Number(productHeight),
+  //   image: form_data
+  // })
+  //   .then(function (response) {
+  //     console.log(response);
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //   });
+
+
+
+
+
+
 
 
 
