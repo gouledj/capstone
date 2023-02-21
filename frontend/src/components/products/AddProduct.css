@@ -1,0 +1,30 @@
+.input-fields {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+
+}
+
+.product-name-field {
+  padding-bottom: 1rem;
+
+}
+
+.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+  margin-bottom: 1rem;
+  background-color: white;
+}
+
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation24.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  background-color: #22243E;
+  width: 1200px;
+}
+
+.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-adornedStart.css-1q6at85-MuiInputBase-root-MuiOutlinedInput-root {
+  background-color: white;
+
+}
+
+.upload-image-button {
+  margin-top: 5rem;
+}

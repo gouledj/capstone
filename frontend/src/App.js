@@ -1,6 +1,6 @@
 import './App.css';
 import LoginPage from "./components/loginPage/LoginPage.js";
-import AdminPage from "./components/adminPage/AdminPage.js";
+import AdminPageView from "./components/adminPage/AdminPageView.js";
 
 import {
   useNavigate,
@@ -20,7 +20,7 @@ function App() {
         <Route
           exact
           path="/admin-page"
-          element={<AdminPage />}
+          element={<AdminPageView />}
         />
 
       </Routes>
