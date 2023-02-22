@@ -66,16 +66,19 @@ class Customer(models.Model):
 
 
 class Products(models.Model):
-     product_id = models.AutoField(primary_key=True)
-     product_name = models.CharField(max_length=80)
-     product_description = models.CharField(max_length=200)
-     product_quantity = models.IntegerField()
-     product_price = models.FloatField()
-     product_price_sale = models.FloatField()
-     product_available = models.BooleanField()
-     product_weight = models.FloatField()
-     product_height = models.FloatField()
-     product_weight = models.FloatField()
+    product_id = models.AutoField(primary_key=True)
+    product_name = models.CharField(max_length=80)
+    product_description = models.CharField(max_length=200)
+    product_quantity = models.IntegerField()
+    product_price = models.FloatField()
+    product_price_sale = models.FloatField()
+    product_available = models.BooleanField()
+    product_weight = models.FloatField()
+    product_height = models.FloatField()
+    product_weight = models.FloatField()
+    image = models.ImageField(upload_to='post_images')
 
-     type_foreign_key = models.ManyToManyField(Types, related_name="Types", blank=True )
+    type_foreign_key = models.ManyToManyField(Types, related_name="Types", blank=True )
+    def __str__(self):
+        return self.title
 

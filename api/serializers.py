@@ -15,9 +15,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Products
-        fields = ('product_id', 'product_name', 'product_description', 'product_quantity', 'product_price', 'product_price_sale', 'product_available',
-                  'product_weight', 'product_height', 'product_weight', 'type_foreign_key')
-
+        fields = '__all__'
 
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
