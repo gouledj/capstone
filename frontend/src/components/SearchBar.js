@@ -71,8 +71,18 @@ function SearchBar() {
         ))}
 
 
-        }
+
       </div>
+
+
+
+
+      {/* media/publicimages/IMG_2094.JPG */}
+
+      {/* <img src={require('/media/post_images/IMG_2092.jpg')} alt='image' /> */}
+      {/* <img src={require('./my-path/images/my-image.png')}/> */}
+
+
 
     </div>
   )

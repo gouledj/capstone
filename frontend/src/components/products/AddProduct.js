@@ -178,10 +178,19 @@ export default function AddProduct() {
 
                   />
 
+                  {/* /Users/gouledjeelal/Desktop/school/capstone/media/post_images/IMG_2092.JPG */}
+
+                  {/* <img src="/media/post_images/IMG_2092.jpg" alt='image' /> */}
+
+
+                  {/* media/post_images/IMG_2092.JPG */}
+
                   {/* /Users/gouledjeelal/Desktop/school/capstone/images/Screen_Shot_2023-02-03_at_4.48.31_PM.png */}
                   {/* <img src="images/Screen_Shot_2023-02-03_at_4.48.31_PM.png" alt='logo' /> */}
                   {/* {console.log(fileurl)} */}
                   {/* {imageUploadPreview()} */}
+
+
 
                   {/* <img src={"images/" + fileurl} alt='image' /> */}
 
