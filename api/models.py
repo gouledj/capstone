@@ -76,7 +76,7 @@ class Products(models.Model):
     product_weight = models.FloatField()
     product_height = models.FloatField()
     product_weight = models.FloatField()
-    image = models.ImageField(upload_to='post_images')
+    image = models.ImageField(upload_to='frontend/src/productimages')
 
     type_foreign_key = models.ManyToManyField(Types, related_name="Types", blank=True )
     def __str__(self):
