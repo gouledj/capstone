@@ -72,7 +72,7 @@ class Products(models.Model):
     product_quantity = models.IntegerField()
     product_price = models.FloatField()
     product_price_sale = models.FloatField()
-    product_available = models.BooleanField()
+    product_available = models.BooleanField(default=True)
     product_weight = models.FloatField()
     product_height = models.FloatField()
     product_weight = models.FloatField()
