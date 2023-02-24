@@ -66,8 +66,6 @@ function AdminPageView() {
 
         <div className="products">
           <div className="text-test">
-            <h1>item</h1>
-
           </div>
 
         </div>

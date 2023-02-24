@@ -29,23 +29,6 @@ function SearchBar() {
   }, [])
 
   console.log(products)
-
-
-  // {
-  //   companyDetails.map((item, id) => (
-  //     <ul className="company-details-list">
-  //       <h1>Company Details</h1>
-  //       <h1>Company Name: {item.name}</h1>
-  //       <h1>Company Symbol: {item.symbol}</h1>
-  //       <h1>Stock is traded on: {item.exchange}</h1>
-  //       <h1>Description: {item.description}</h1>
-  //     </ul>
-
-  //   ))
-  // }
-
-
-  // console.log("test")
   return (
 
     <div className="item-gallery-box">
@@ -60,18 +43,18 @@ function SearchBar() {
 
       </div>
 
+      {/* frontend/src/productimages/iphone_imageTest_K8yQfkc.jpeg */}
+
       <div className='item-flex'>
         {products.map((item, id) => (
           <div key={id} className="product-details-list">
 
             <div>{item.product_name}</div>
             <div> {item.product_description}</div>
+            <img className="product-img" src={require('/src/productimages/' + item.image.substring(item.image.lastIndexOf('/') + 1))} />
           </div>
 
         ))}
-
-
-
       </div>
 
 
