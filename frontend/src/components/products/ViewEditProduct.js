@@ -21,7 +21,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-export default function AddProduct() {
+export default function ViewEditProduct() {
   const [open, setOpen] = React.useState(false);
   const [fileurl, setfileurl] = useState(null);
 
@@ -82,8 +82,6 @@ export default function AddProduct() {
         <div className="display-preview-image">
 
           <img src={"images/" + fileurl} alt='image' />
-          {/* <img src="images/Screen_Shot_2023-02-03_at_4.48.31_PM.png" alt='logo' /> */}
-          {/* #images/Screen_Shot_2023-02-03_at_4.48.31_PM.png */}
         </div>
       )
 
@@ -92,11 +90,12 @@ export default function AddProduct() {
 
   return (
     <div>
-      <Button variant="contained" onClick={handleClickOpen}>
+      {/* <Button variant="contained" onClick={handleClickOpen}>
         Add Product
-      </Button>
+      </Button> */}
       <Dialog
-        open={open}
+        onClick={handleClickOpen}
+        open={true}
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}

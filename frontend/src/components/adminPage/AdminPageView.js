@@ -34,7 +34,6 @@ function AdminPageView() {
   const [dialogState, setdialogState] = useState(false);
   const [addButton, setaddButton] = useState(false);
 
-
   const openDialog = () => {
     if (addButton) {
       console.log("ADD PRODUCT")
@@ -58,7 +57,7 @@ function AdminPageView() {
       </div>
       {/* <Button className="add-product"  variant="contained">Add a Product
       </Button> */}
-      <AddProduct />
+      <AddProduct className="add-product-button" />
 
 
       <div className="product-list">
@@ -66,8 +65,6 @@ function AdminPageView() {
 
         <div className="products">
           <div className="text-test">
-            <h1>item</h1>
-
           </div>
 
         </div>

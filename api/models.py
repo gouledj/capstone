@@ -4,8 +4,6 @@ class Item_Orders(models.Model):
     item_order_id = models.AutoField(primary_key=True)
     item_order_quantity = models.IntegerField()
     item_order_price =models.FloatField()
-
-
 class Types(models.Model):
     type_id = models.AutoField(primary_key=True)
     type_name = models.CharField(max_length=50)
@@ -42,28 +40,15 @@ class Customer(models.Model):
     province = models.CharField(max_length=60)
     country = models.CharField(max_length=60)
 
-    #card info
-    card_name = models.CharField(max_length=60)
-    #note for card field we'll just have one field where the user puts their card info in.
-    card_address = models.CharField(max_length=60)
-    card_number = models.IntegerField(max_length=17, default=1)
-    card_expire_date = models.DateField()
-    cvc_number =  models.IntegerField(max_length=4)
+    card_name = models.CharField(max_length=60, blank=True)
+    card_address = models.CharField(max_length=60, blank=True)
+    card_number = models.IntegerField(max_length=17, default=1, blank=True)
+    card_expire_date = models.DateField(blank=True)
+    cvc_number =  models.IntegerField(max_length=4, blank=True)
+
 
     orders = models.ManyToManyField(Orders, related_name="Orders", blank=True)
     Cart = models.ManyToManyField(Cart, related_name="Cart", blank=True)
-
-
-
-    #Each  customer has a cart field that can dynamically change
-
-    #good state  of database
-    # Order_foreign_key = models.ForeignKey(Orders, on_delete=models.CASCADE, blank=True, null=True)
-    # order_list = models.ManyToManyField(, related_name='carts')
-
-    #This cart field will be treated as an object 
-    # cart = models.ForeignKey(Cart, on_delete=models.CASCADE, blank=True, null=True)
-
 
 class Products(models.Model):
     product_id = models.AutoField(primary_key=True)
@@ -72,13 +57,12 @@ class Products(models.Model):
     product_quantity = models.IntegerField()
     product_price = models.FloatField()
     product_price_sale = models.FloatField()
-    product_available = models.BooleanField()
+    product_available = models.BooleanField(default=True)
     product_weight = models.FloatField()
     product_height = models.FloatField()
     product_weight = models.FloatField()
     image = models.ImageField(upload_to='frontend/src/productimages')
 
     type_foreign_key = models.ManyToManyField(Types, related_name="Types", blank=True )
-    def __str__(self):
-        return self.title
+
 

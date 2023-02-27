@@ -1,6 +1,8 @@
 import './App.css';
-import LoginPage from "./components/loginPage/LoginPage.js";
+import Signin from "./components/loginPage/Signin.js";
 import AdminPageView from "./components/adminPage/AdminPageView.js";
+import Signup from "./components/loginPage/Signup.js";
+
 
 import {
   useNavigate,
@@ -16,11 +18,25 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={LoginPage()} />
+        <Route path="/" element={Signin()} />
         <Route
           exact
           path="/admin-page"
           element={<AdminPageView />}
+        />
+
+        <Route
+          exact
+          path="/signin"
+          element={<Signin />}
+
+        />
+
+        <Route
+          exact
+          path="/signup"
+          element={<Signup />}
+
         />
 
       </Routes>

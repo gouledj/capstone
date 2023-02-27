@@ -12,6 +12,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import './AdminPageView.css'
+
 
 const pages = ['Data Analytics', 'Customers', 'Orders'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
