@@ -28,10 +28,11 @@
   flex-direction: row-reverse;
   flex-wrap: wrap;
   padding-left: 0;
-  left: 575px;
+  max-width: 1590px;
   position: absolute;
   padding-top: 1rem;
   overflow: auto;
+  left: 100px;
 }
 
 .product-details-list {
