@@ -20,6 +20,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+
 
 
 import ViewEditProducts from "/Users/gouledjeelal/Desktop/school/capstone/frontend/src/components/products/ViewEditProduct.js"
@@ -53,6 +55,8 @@ export default function SearchBar() {
   const [productPriceSale, setproductPriceSale] = useState(null);
   const [productWeight, setproductWeight] = useState(null);
   const [productHeight, setproductHeight] = useState(null);
+
+
 
   const [productClickedInfo, setproductClickedInfo] = useState({});
 
@@ -89,22 +93,78 @@ export default function SearchBar() {
   };
 
   const handleClose = () => {
-    const true_value = true;
 
-    // console.log("post values")
-    // setOpen(false);
-    // setButtonClicked(true);
+    setButtonClicked(false);
+    setEditInputLabels(false);
     setOpen(false);
-    // setButtonClicked(true);
-    // setEditInputLabels(true);
-
-
   };
+
+  const updateProductInfo = () => {
+    if (buttonClicked) {
+      const updatedProduct = {
+        product_id: productClickedInfo.productId,
+        product_name: productClickedInfo.productName,
+        product_description: productClickedInfo.productDescription,
+        product_quantity: productClickedInfo.productQuantity,
+        product_price: productClickedInfo.productPrice,
+        product_price_sale: productClickedInfo.productPriceSale,
+        product_weight: productClickedInfo.productWeight,
+        product_height: productClickedInfo.productHeight,
+        image: productClickedInfo.image
+      };
+
+      let form_data = new FormData();
+
+
+      form_data.append('product_name', productName);
+      form_data.append('product_description', productDescription);
+      form_data.append('product_quantity', productQuantity);
+      form_data.append('product_price', productPrice);
+      form_data.append('product_height', productHeight);
+      form_data.append('product_price_sale', 0)
+      form_data.append('product_weight', productWeight);
+      // form_data.append('image', fileurl, fileurl.name);
+
+      console.log(updatedProduct)
+
+      axios
+        .put(`http://127.0.0.1:8000/api/Products/${updatedProduct.product_id}/`, form_data, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then((response) => {
+          console.log(response);
+          const updatedProducts = [...products];
+          const index = updatedProducts.findIndex((product) => product.id === productClickedInfo.id);
+          updatedProducts[index] = response.data;
+          setProducts(updatedProducts);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    setButtonClicked(false);
+    setEditInputLabels(false);
+    setOpen(false);
+  }
+
   const showproductClick = (productClicked) => {
     const selectedProduct = products[productClicked];
+    console.log("SELECTED PRODUCT")
     console.log(selectedProduct)
     const imageShortenUrl = selectedProduct.image.substring(selectedProduct.image.lastIndexOf('/') + 1)
+
+    setproductName(selectedProduct.product_name)
+    setproductPrice(selectedProduct.product_price)
+    setproductHeight(selectedProduct.product_height)
+    setproductWeight(selectedProduct.product_weight)
+    setproductQuantity(selectedProduct.product_quantity)
+    setproductDescription(selectedProduct.product_description)
+
     setproductClickedInfo({
+      productId: selectedProduct.product_id,
       productName: selectedProduct.product_name,
       productDescription: selectedProduct.product_description,
       productQuantity: selectedProduct.product_quantity,
@@ -114,6 +174,7 @@ export default function SearchBar() {
       productHeight: selectedProduct.product_height,
       productImage: imageShortenUrl
     });
+    console.log(imageShortenUrl)
     setOpen(true);
 
     // console.log(products[productClicked]);
@@ -183,27 +244,31 @@ export default function SearchBar() {
 
           <div className="product-details">
 
-            <Input disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Product Name" defaultValue={"Product Name: " + productClickedInfo.productName} />
-            <Input disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Price" defaultValue={"Product Price: " + productClickedInfo.productPrice + "$"} />
-            <Input disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Dimensions" defaultValue={"Product Dimensions: " + productClickedInfo.productHeight + "x" + productClickedInfo.productWidth} />
-            <Input disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Weight" defaultValue={"Product Weight: " + productClickedInfo.productWeight} />
-            <Input disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Quantity" defaultValue={"Product Quantity: " + productClickedInfo.productQuantity} />
+            <InputLabel htmlFor="product-name">Product Name</InputLabel>
+            <Input onChange={e => setproductName(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Product Name" label="Test" defaultValue={"Product Name: " + productClickedInfo.productName} />
+            <Input onChange={e => setproductPrice(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Price" defaultValue={"Product Price: " + productClickedInfo.productPrice + "$"} />
+            <Input onChange={e => setproductHeight(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Dimensions" defaultValue={"Product Dimensions: " + productClickedInfo.productHeight + "x" + productClickedInfo.productWidth} />
+            <Input onChange={e => setproductWeight(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Weight" defaultValue={"Product Weight: " + productClickedInfo.productWeight} />
+            <Input onChange={e => setproductQuantity(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Quantity" defaultValue={"Product Quantity: " + productClickedInfo.productQuantity} />
           </div>
           <h3 className="product-description-title">Product Description</h3>
-          <Input disabled={!EditInputLabels} disableUnderline={true} multiline={true} placeholder="Product Description" defaultValue={productClickedInfo.productDescription} inputProps={ariaLabel} />
+          <Input onChange={e => setproductDescription(e.target.value)} disabled={!EditInputLabels} disableUnderline={true} multiline={true} placeholder="Product Description" defaultValue={productClickedInfo.productDescription} inputProps={ariaLabel} />
         </DialogContent>
         <DialogActions>
           {/* <Button onClick={handleClose}>
             {buttonClicked ? "Changes Made" : "Make Changes"}
           </Button> */}
           {/* {buttonClicked ? "Changes Made" : "Make Changes"} */}
+          {buttonClicked ? (
+            <Button onClick={updateProductInfo} className="confirm-changes-button">Confirm Changes</Button>
+          ) : null}
           <Button className="edit-window-button" variant="contained" onClick={editFields}>
-            {/* {buttonClicked ?
-              <Button className="new-test" />
-            
-          } : null} */}
-            {buttonClicked ? "Save Changes" : "Edit Product Info"}
+
+            {buttonClicked ? "" : "Edit Product Info"}
           </Button>
+
+
+
 
         </DialogActions>
       </Dialog>

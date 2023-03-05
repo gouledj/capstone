@@ -121,6 +121,19 @@ body {
   position: absolute !important;
 }
 
+.confirm-changes-button {
+  background-color: rgb(47, 225, 185) !important;
+  color: black !important;
+  font-weight: 600 !important;
+  border-radius: 10px !important;
+  padding: 0.6rem !important;
+  margin-right: -5rem !important;
+  margin-bottom: 1rem !important;
+  z-index: 1;
+
+}
+
+
 .css-1x51dt5-MuiInputBase-input-MuiInput-input.Mui-disabled {
   -webkit-text-fill-color: white !important;
 
