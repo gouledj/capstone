@@ -1,6 +1,7 @@
 import './App.css';
 import Signin from "./components/loginPage/Signin.js";
 import AdminPageView from "./components/adminPage/AdminPageView.js";
+import AdminCustomerView from "./components/adminPage/AdminCustomerView.js";
 import Signup from "./components/loginPage/Signup.js";
 
 
@@ -23,6 +24,12 @@ function App() {
           exact
           path="/admin-page"
           element={<AdminPageView />}
+        />
+
+        <Route
+          exact
+          path="/admin-customers"
+          element={<AdminCustomerView />}
         />
 
         <Route

@@ -14,8 +14,20 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import './AdminPageView.css'
 
-
-const pages = ['Data Analytics', 'Customers', 'Orders'];
+const pages = [
+  {
+    name: 'Data Analytics',
+    link: '#'
+  },
+  {
+    name: 'Customers',
+    link: '/admin-customers'
+  },
+  {
+    name: 'Orders',
+    link: '/orders'
+  }
+];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function AdminNavbar() {
@@ -44,11 +56,12 @@ function AdminNavbar() {
           <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
-                key={page}
+                key={page.name}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block', paddingRight: '5rem', }}
+                href={page.link}
               >
-                {page}
+                {page.name}
               </Button>
             ))}
           </Box>
@@ -57,4 +70,5 @@ function AdminNavbar() {
     </AppBar >
   );
 }
+
 export default AdminNavbar;

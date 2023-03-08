@@ -7,7 +7,7 @@ class CustomerSerializer(serializers.ModelSerializer):
         model = Customer
         fields = ('customer_id', 'firstName', 'lastName', 'customerPhone',
                   'email', 'streetName', 'streetNumber','unit', 'postal_code', 'city','province',
-                  'card_name', 'card_address', 'card_number', 'card_expire_date', 'cvc_number','orders', 'Cart'
+                  'orders', 'Cart'
 
                   )
 

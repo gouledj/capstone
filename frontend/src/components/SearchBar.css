@@ -21,6 +21,7 @@
   /* width: 25%; */
   height: auto;
   border-radius: 13px;
+  margin-top: 1rem;
 }
 
 .item-flex {
@@ -33,6 +34,7 @@
   padding-top: 1rem;
   overflow: auto;
   left: 100px;
+  top: 250px;
 }
 
 .product-details-list {
@@ -44,11 +46,210 @@
   padding-top: 1rem;
   padding-left: 2rem;
   padding-right: 2rem;
-  padding-bottom: 5rem;
+  padding-bottom: 1rem;
+}
 
 
+
+.product-avaliable {
+  font-size: 17px;
+  position: inherit;
+  padding-top: 2.5rem;
+  padding-left: 10rem;
+
+}
+
+.product-clicked-img {
+  max-width: 240px;
+  max-height: 300px;
+  border-radius: 15px;
+  position: absolute;
+  top: 70px;
+}
+
+.product-details {
+  display: flex;
+  align-items: end;
+  flex-direction: column;
+  position: absolute;
+  left: 280px;
+  top: 60px;
+  width: 100%;
+  max-width: 50%;
+}
+
+.css-1x51dt5-MuiInputBase-input-MuiInput-input {
+  color: #FFFFFF !important;
+  line-height: 36px !important;
+  font-size: 17px !important;
+  font-weight: 400 !important;
+  font-family: 'Inter' !important;
+  font-style: normal !important;
 }
 
 body {
   margin: 0;
+}
+
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation24.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  background: rgba(34, 36, 62, 0.75);
+  border-radius: 30px;
+  position: absolute;
+  width: 992px !important;
+  height: 500px;
+}
+
+.css-66dh3a-MuiInputBase-input-MuiInput-input {
+  width: 565px ! important;
+  color: white !important;
+  font-size: 20px !important;
+}
+
+.css-l8gpby-MuiInputBase-root-MuiInput-root {
+  top: 50px !important;
+}
+
+.close-window-button {
+  padding-left: 2rem !important;
+  display: flex !important;
+  top: 0 !important;
+  left: 0 !important;
+  position: absolute !important;
+}
+
+.confirm-changes-button {
+  background-color: rgb(47, 225, 185) !important;
+  color: black !important;
+  font-weight: 600 !important;
+  border-radius: 10px !important;
+  padding: 0.6rem !important;
+  margin-right: -5rem !important;
+  margin-bottom: 1rem !important;
+  z-index: 1;
+
+}
+
+
+.css-1x51dt5-MuiInputBase-input-MuiInput-input.Mui-disabled {
+  -webkit-text-fill-color: white !important;
+
+}
+
+.edit-window-button {
+  background-color: rgb(47, 225, 185) !important;
+  color: black !important;
+  font-weight: 600 !important;
+  border-radius: 10px !important;
+  padding: 0.6rem !important;
+  margin-right: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.MuiInputBase-root.MuiInput-root.MuiInputBase-colorPrimary.MuiInputBase-multiline.css-l8gpby-MuiInputBase-root-MuiInput-root {
+  position: absolute;
+  top: 360px !important;
+  font-size: 18px;
+  width: 100%;
+  overflow: auto;
+  /* overflow: 'auto' */
+}
+
+.css-66dh3a-MuiInputBase-input-MuiInput-input.Mui-disabled {
+  opacity: 1;
+  -webkit-text-fill-color: white !important;
+}
+
+.css-66dh3a-MuiInputBase-input-MuiInput-input.Mui-disabled {
+  opacity: 1;
+  -webkit-text-fill-color: white !important;
+  padding-top: 1rem
+}
+
+.product-description-title {
+  position: absolute;
+  top: 315px;
+  color: white;
+  font-size: 1em
+}
+
+.product-name-tag {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  color: white;
+  font-size: 14px;
+}
+
+.product-price-tag {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  color: white;
+  position: absolute;
+  top: 35px;
+}
+
+.product-dimensions-tag {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  top: 135px;
+}
+
+.product-weight-tag {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  top: 105px;
+  padding-left: 0.125rem
+}
+
+.product-quantity-tag {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  top: 70px;
+  padding-left: 0.125rem
+}
+
+.css-1s97tdc-MuiInputBase-root-MuiInput-root {
+  margin-left: 1rem !important;
+}
+
+
+.product-name {
+  font-size: 16px;
+}
+
+.product-price-map {
+  font-size: 16px;
+  display: flex;
+  position: absolute;
+  padding-top: 2.5rem;
+}
+
+.product-price {
+  font-size: 16px;
+
+}
+
+.product-dimensions {
+  font-size: 16px;
+}
+
+.product-weight {
+  font-size: 16px;
+}
+
+.product-quantity {
+  font-size: 16px;
 }

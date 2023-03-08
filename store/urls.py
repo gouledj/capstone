@@ -18,6 +18,8 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from rest_framework import routers
 from api import views
+from rest_framework_simplejwt import views as jwt_views
+
 
 router = routers.DefaultRouter()
 router.register(r'Customer', views.CustomerView, 'Customer')
@@ -25,10 +27,15 @@ router.register(r'Products', views.ProductView, 'Products')
 router.register(r'Orders', views.OrderView, 'Orders')
 
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('', include('api.urls')),
     path('', TemplateView.as_view(template_name='index.html')),
-    path('api/', include(router.urls)),
+    path('api/', include(router.urls)), 
+    path('token/', 
+          jwt_views.TokenObtainPairView.as_view(), 
+          name ='token_obtain_pair'),
+     path('token/refresh/', 
+          jwt_views.TokenRefreshView.as_view(), 
+          name ='token_refresh')
 ]

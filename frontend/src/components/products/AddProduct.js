@@ -101,6 +101,7 @@ export default function AddProduct() {
         keepMounted
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
+        sx={{ height: '1000px' }}
       >
         <DialogTitle sx={{ color: "white" }}>{"Fill the required fields below to add a product!"}</DialogTitle>
         <DialogContent>
