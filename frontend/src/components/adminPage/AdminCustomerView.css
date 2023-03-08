@@ -1,0 +1,53 @@
+.item-gallery-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-bar {
+  margin: 20px 0;
+}
+
+.customer-rows-flex {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.customer-details-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 500px;
+  margin-bottom: 10px;
+  padding: 2rem;
+}
+
+.customer-details-list:hover {
+  background-color: grey;
+}
+
+.customer-firstName,
+.customer-lastName,
+.customer-phone,
+.customer-email,
+.customer-location,
+.customer-postal-code {
+  width: 15%;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.customer-firstName,
+.customer-lastName {
+  font-weight: bold;
+}
+
+.customer-location,
+.customer-postal-code {
+  text-align: left;
+}

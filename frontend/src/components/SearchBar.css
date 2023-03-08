@@ -34,6 +34,7 @@
   padding-top: 1rem;
   overflow: auto;
   left: 100px;
+  top: 250px;
 }
 
 .product-details-list {
@@ -48,11 +49,6 @@
   padding-bottom: 1rem;
 }
 
-.product-price {
-  font-size: 20px;
-  position: absolute;
-  padding-top: 2.5rem;
-}
 
 
 .product-avaliable {
@@ -76,7 +72,7 @@
   align-items: end;
   flex-direction: column;
   position: absolute;
-  left: 290px;
+  left: 280px;
   top: 60px;
   width: 100%;
   max-width: 50%;
@@ -152,7 +148,7 @@ body {
 .MuiInputBase-root.MuiInput-root.MuiInputBase-colorPrimary.MuiInputBase-multiline.css-l8gpby-MuiInputBase-root-MuiInput-root {
   position: absolute;
   top: 360px !important;
-  font-size: 10px;
+  font-size: 18px;
   width: 100%;
   overflow: auto;
   /* overflow: 'auto' */
@@ -174,4 +170,86 @@ body {
   top: 315px;
   color: white;
   font-size: 1em
+}
+
+.product-name-tag {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  color: white;
+  font-size: 14px;
+}
+
+.product-price-tag {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  color: white;
+  position: absolute;
+  top: 35px;
+}
+
+.product-dimensions-tag {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  top: 135px;
+}
+
+.product-weight-tag {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  top: 105px;
+  padding-left: 0.125rem
+}
+
+.product-quantity-tag {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  color: white;
+  font-size: 14px;
+  position: absolute;
+  top: 70px;
+  padding-left: 0.125rem
+}
+
+.css-1s97tdc-MuiInputBase-root-MuiInput-root {
+  margin-left: 1rem !important;
+}
+
+
+.product-name {
+  font-size: 16px;
+}
+
+.product-price-map {
+  font-size: 16px;
+  display: flex;
+  position: absolute;
+  padding-top: 2.5rem;
+}
+
+.product-price {
+  font-size: 16px;
+
+}
+
+.product-dimensions {
+  font-size: 16px;
+}
+
+.product-weight {
+  font-size: 16px;
+}
+
+.product-quantity {
+  font-size: 16px;
 }

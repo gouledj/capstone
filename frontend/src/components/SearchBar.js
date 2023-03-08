@@ -5,11 +5,7 @@ import './SearchBar.css';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+
 // frontend / src / components / products / ViewEditProduct.js
 
 import Button from '@mui/material/Button';
@@ -73,7 +69,7 @@ export default function SearchBar() {
         setLoad(true);
 
       })
-  }, [])
+  }, [products])
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -229,7 +225,7 @@ export default function SearchBar() {
             <div className="product-name">{item.product_name}</div>
             {/* <div className="product-description"> {item.product_description}</div> */}
             <img className="product-img" src={require('/src/productimages/' + item.image.substring(item.image.lastIndexOf('/') + 1))} />
-            <div className="product-price">{item.product_price + "$"}</div>
+            <div className="product-price-map">{item.product_price + "$"}</div>
             {/* <div className="product-ships">{item.product_height}</div> */}
             <div className="product-avaliable">{item.product_available === "false" ? "true" : "Avaliable "}</div>
           </div>
@@ -243,14 +239,37 @@ export default function SearchBar() {
           ) : null}
 
           <div className="product-details">
+            {/* product Name placeholder */}
+            <div className="product-name-tag">
+              <h4 className="product-name">Product Name:</h4>
+              <Input onChange={e => setproductName(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Product Name" label="Test" defaultValue={productClickedInfo.productName} />
+            </div>
 
-            <InputLabel htmlFor="product-name">Product Name</InputLabel>
-            <Input onChange={e => setproductName(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Product Name" label="Test" defaultValue={"Product Name: " + productClickedInfo.productName} />
-            <Input onChange={e => setproductPrice(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Price" defaultValue={"Product Price: " + productClickedInfo.productPrice + "$"} />
-            <Input onChange={e => setproductHeight(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Dimensions" defaultValue={"Product Dimensions: " + productClickedInfo.productHeight + "x" + productClickedInfo.productWidth} />
-            <Input onChange={e => setproductWeight(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Weight" defaultValue={"Product Weight: " + productClickedInfo.productWeight} />
-            <Input onChange={e => setproductQuantity(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Quantity" defaultValue={"Product Quantity: " + productClickedInfo.productQuantity} />
+            {/* product price placeholder */}
+            <div className="product-price-tag">
+              <h4 className="product-price">Product Price:</h4>
+              <Input onChange={e => setproductPrice(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Price" defaultValue={productClickedInfo.productPrice + "$"} />
+            </div>
+
+            <div className="product-dimensions-tag">
+              <h4 className="product-dimensions">Product Dimensions:</h4>
+              <Input onChange={e => setproductHeight(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Dimensions" defaultValue={productClickedInfo.productHeight + "x" + productClickedInfo.productWidth} />
+            </div>
+
+            <div className="product-weight-tag">
+              <h4 className="product-weight">Product Weight</h4>
+              <Input onChange={e => setproductWeight(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Weight" defaultValue={productClickedInfo.productWeight + 'kg'} />
+            </div>
+
+            <div className="product-quantity-tag">
+              <h4 className="product-quantity">Product Quantity</h4>
+              <Input onChange={e => setproductQuantity(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Quantity" defaultValue={productClickedInfo.productQuantity} />
+            </div>
+
+
           </div>
+
+
           <h3 className="product-description-title">Product Description</h3>
           <Input onChange={e => setproductDescription(e.target.value)} disabled={!EditInputLabels} disableUnderline={true} multiline={true} placeholder="Product Description" defaultValue={productClickedInfo.productDescription} inputProps={ariaLabel} />
         </DialogContent>

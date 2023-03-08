@@ -30,7 +30,7 @@ class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
     firstName = models.CharField(max_length=100)
     lastName = models.CharField(max_length=100)
-    customerPhone = models.IntegerField()
+    customerPhone = models.CharField(max_length=10)
     email = models.CharField(max_length=50)
     streetName = models.CharField(max_length=20)
     streetNumber = models.CharField(max_length=20)
@@ -40,11 +40,11 @@ class Customer(models.Model):
     province = models.CharField(max_length=60)
     country = models.CharField(max_length=60)
 
-    card_name = models.CharField(max_length=60, blank=True)
-    card_address = models.CharField(max_length=60, blank=True)
-    card_number = models.IntegerField(max_length=17, default=1, blank=True)
-    card_expire_date = models.DateField(blank=True)
-    cvc_number =  models.IntegerField(max_length=4, blank=True)
+    # card_name = models.CharField(max_length=60, blank=True)
+    # card_address = models.CharField(max_length=60, blank=True)
+    # card_number = models.IntegerField(max_length=17, default=1, blank=True)
+    # card_expire_date = models.DateField(blank=True)
+    # cvc_number =  models.IntegerField(max_length=4, blank=True)
 
 
     orders = models.ManyToManyField(Orders, related_name="Orders", blank=True)
