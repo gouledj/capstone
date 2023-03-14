@@ -1,0 +1,151 @@
+.search-bar {
+  display: flex;
+  align-self: center;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  padding-right: 2rem;
+}
+
+.product-img {
+  max-width: 150px;
+  height: auto;
+  border-radius: 13px;
+  margin-top: 1rem;
+}
+
+.item-flex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  padding-left: 0;
+  max-width: 1590px;
+  /* position: absolute; */
+  padding-top: 1rem;
+  overflow: auto;
+  /* left: 100px;
+  top: 170px; */
+}
+
+.product-details-list {
+  flex-basis: 15%;
+  margin-top: 1rem;
+  background: #343660;
+  border-radius: 15px;
+  margin: 1rem;
+  padding-top: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-bottom: 1rem;
+  cursor: pointer;
+}
+
+.product-avaliable {
+  font-size: 15px;
+  position: inherit;
+  padding-top: 2.5rem;
+  padding-left: 10rem;
+  white-space: nowrap;
+}
+
+.product-clicked-img {
+  max-width: 240px;
+  max-height: 300px;
+  border-radius: 15px;
+  position: absolute;
+  top: 70px;
+}
+
+.product-details {
+  display: flex;
+  align-items: end;
+  flex-direction: column;
+  position: absolute;
+  left: 280px;
+  top: 60px;
+  width: 100%;
+  max-width: 50%;
+}
+
+.css-1x51dt5-MuiInputBase-input-MuiInput-input {
+  color: #FFFFFF !important;
+  line-height: 36px !important;
+  font-size: 17px !important;
+  font-weight: 400 !important;
+  font-family: 'Inter' !important;
+  font-style: normal !important;
+}
+
+body {
+  margin: 0;
+}
+
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation24.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  background: rgba(34, 36, 62, 0.75);
+  border-radius: 30px;
+  position: absolute;
+  width: 992px !important;
+  height: 500px;
+}
+
+.css-66dh3a-MuiInputBase-input-MuiInput-input {
+  width: 565px ! important;
+  color: white !important;
+  font-size: 20px !important;
+}
+
+.css-l8gpby-MuiInputBase-root-MuiInput-root {
+  top: 50px !important;
+}
+
+.close-window-button {
+  padding-left: 2rem !important;
+  display: flex !important;
+  top: 0 !important;
+  left: 0 !important;
+  position: absolute !important;
+}
+
+.confirm-changes-button {
+  background-color: rgb(47, 225, 185) !important;
+  color: black !important;
+  font-weight: 600 !important;
+  border-radius: 10
+}
+
+.straight-line {
+  position: fixed;
+  top: 73px;
+  left: 230px;
+  width: 2px;
+  height: 100vh;
+  background-color: #FFFFFF;
+  z-index: 9999;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.search-bar input[type="search"] {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #333;
+}
+
+.search-bar input[type="search"]::placeholder {
+  color: #999;
+}
+
+
+.side-bar-filters {
+  display: flex;
+  position: fixed;
+  left: 60px;
+}

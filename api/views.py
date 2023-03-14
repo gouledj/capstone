@@ -26,11 +26,19 @@ class ProductView(viewsets.ModelViewSet):
     queryset = Products.objects.all()
 
 
-    parser_classes = (MultiPartParser, FormParser)
+    # parser_classes = (MultiPartParser, FormParser)
 
-    def get(self, request, *args, **kwargs):
-        posts = Products.objects.all()
-        serializer = ProductSerializer(posts, many=True)
+    def get_queryset(self):
+        qs = Products.objects.all()
+        product_name = self.request.query_params.get('product_name')
+        if  product_name is not None:
+            qs = qs.filter(product_name__icontains=product_name)
+        return qs
+
+
+       
+
+
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):

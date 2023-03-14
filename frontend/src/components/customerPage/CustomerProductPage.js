@@ -1,9 +1,9 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import './SearchBar.css';
+import './productSearch.css';
 import Box from '@mui/material/Box';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 
 // frontend / src / components / products / ViewEditProduct.js
@@ -17,15 +17,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 
+import useDebounce from '../hooks/use-debounce.js';
 
-import ViewEditProducts from "/Users/gouledjeelal/Desktop/school/capstone/frontend/src/components/products/ViewEditProduct.js"
 
 
 // frontend / src / components / products / AddProduct.js
-
-import AddProduct from "./products/AddProduct.js"
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -33,13 +32,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const ariaLabel = { 'aria-label': 'description' };
 
+const url = "http://127.0.0.1:8000/api"
+
 
 //Search bar functionality will handle search but also items that come up below, don't make another component for it.
 //Have an onlick function thats calls another function, and that function sets the state of the props and calls it to another function
-export default function SearchBar() {
+export default function CustomerProductPage() {
   const [products, setProducts] = useState([]);
   const [load, setLoad] = useState(false);
   const [productClick, setproductClick] = useState(false);
+  const [searchQuery, setsearchQuery] = useState("")
 
   //OnClick product view
 
@@ -60,16 +62,32 @@ export default function SearchBar() {
 
   const [buttonClicked, setButtonClicked] = useState(false);
 
+  const debounce = useDebounce(searchQuery, 500)
+
+  const [selectedCategory, setSelectedCategory] = useState();
+
+
 
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/api/Products/")
+    fetchData()
+
+  }, [debounce])
+
+
+  const fetchData = async () => {
+
+    const endpoint = `${url}/Products?product_name=${searchQuery}`
+
+    axios.get(endpoint)
       .then((response) => {
         setProducts(response.data);
         setLoad(true);
 
       })
-  }, [products])
+  }
+
+  console.log(products)
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -174,62 +192,47 @@ export default function SearchBar() {
     setOpen(true);
 
     // console.log(products[productClicked]);
-    return (
 
-      <div>
-        {/* <Button variant="outlined" onClick={handleClickOpen}>
-          Open form dialog
-        </Button> */}
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Subscribe</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              To subscribe to this website, please enter your email address here. We
-              will send updates occasionally.
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Email Address"
-              type="email"
-              fullWidth
-              variant="standard"
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Subscribe</Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
   }
+
 
 
   // console.log(products)
   return (
     <div className="item-gallery-box">
       <div className="search-bar">
-        <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          sx={{ width: '1240px', backgroundColor: '#ECEBF1', borderRadius: '3rem' }}
-          renderInput={(params) => <TextField {...params} label="Search" />}
+        <input
+          type='search'
+          placeholder="search.."
+          value={searchQuery}
+          onChange={e => setsearchQuery(e.target.value)}
         />
-      </div>
 
-      <div className='item-flex-search-bar'>
-        {products.map((item, id) => (
+
+      </div>
+      <div class="straight-line"></div>
+
+      <div className='item-flex'>
+        {products && products.map((item, id) => (
           <div onClick={() => showproductClick(id)} key={id} className="product-details-list">
             <div className="product-name">{item.product_name}</div>
             {/* <div className="product-description"> {item.product_description}</div> */}
             <img className="product-img" src={require('/src/productimages/' + item.image.substring(item.image.lastIndexOf('/') + 1))} />
-            <div className="product-price-map">{item.product_price + "$"}</div>
+            <div className="product-price-map">{"$ " + item.product_price.toFixed(2)}</div>
+            <div className="product-avaliable">{"Quantity: " + item.product_quantity}</div>
+
             {/* <div className="product-ships">{item.product_height}</div> */}
-            <div className="product-avaliable">{item.product_available === "false" ? "true" : "Avaliable "}</div>
+            {/* <div className="product-avaliable">{item.product_available === "false" ? "true" : "Avaliable "}</div> */}
+            {/* background: #D9D9D9;
+mix-blend-mode: overlay;
+border-radius: 12px; */}
+            <Button variant="contained" color="primary" size="large" style={{ padding: '3px 10px', background: '#D9D9D9', mixBlendMode: 'overlay', marginTop: '1rem', color: 'black' }}>
+              Buy Now
+            </Button>
           </div>
         ))}
+
+
       </div>
 
       <Dialog className='product-click-window' open={open} onClose={handleClose}>
@@ -237,6 +240,7 @@ export default function SearchBar() {
           {productClickedInfo.productImage ? (
             <img className="product-clicked-img" src={require('/src/productimages/' + productClickedInfo?.productImage)} />
           ) : null}
+
 
           <div className="product-details">
             {/* product Name placeholder */}
@@ -291,6 +295,6 @@ export default function SearchBar() {
 
         </DialogActions>
       </Dialog>
-    </div>
+    </div >
   )
 }
