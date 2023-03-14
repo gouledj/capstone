@@ -3,7 +3,7 @@ import Signin from "./components/loginPage/Signin.js";
 import AdminPageView from "./components/adminPage/AdminPageView.js";
 import AdminCustomerView from "./components/adminPage/AdminCustomerView.js";
 import Signup from "./components/loginPage/Signup.js";
-
+import CustomerPage from './components/customerPage/CustomerPage.js'
 
 import {
   useNavigate,
@@ -43,6 +43,13 @@ function App() {
           exact
           path="/signup"
           element={<Signup />}
+
+        />
+
+        <Route
+          exact
+          path="/products"
+          element={<CustomerPage />}
 
         />
 

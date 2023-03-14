@@ -24,7 +24,7 @@
   margin-top: 1rem;
 }
 
-.item-flex {
+.item-flex-search-bar {
   display: flex;
   flex-direction: row-reverse;
   flex-wrap: wrap;

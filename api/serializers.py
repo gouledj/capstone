@@ -8,7 +8,6 @@ class CustomerSerializer(serializers.ModelSerializer):
         fields = ('customer_id', 'firstName', 'lastName', 'customerPhone',
                   'email', 'streetName', 'streetNumber','unit', 'postal_code', 'city','province',
                   'orders', 'Cart'
-
                   )
 
 
