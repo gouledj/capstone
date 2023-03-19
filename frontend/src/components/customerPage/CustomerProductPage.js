@@ -61,44 +61,36 @@ export default function CustomerProductPage() {
 
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
-  const [onSale, setOnSale] = useState(false);
 
   const [filters, setFilters] = useState({
     minPrice: '',
     maxPrice: '',
     onSale: false,
+    searchQuery: ""
   });
 
   const [checked, setChecked] = useState(false);
-  const debounce = useDebounce(searchQuery, 300)
+  const debouncedFilters = useDebounce(filters, 500);
 
 
   useEffect(() => {
     fetchData()
 
-  }, [debounce])
+  }, [debouncedFilters])
 
   const fetchData = async () => {
     let endpoint = `${url}/Products`;
 
-    if (minPrice !== '' && maxPrice !== '') {
-      endpoint += `?product_price__gte=${minPrice}&product_price__lte=${maxPrice}`;
-    } else if (minPrice !== '') {
-      endpoint += `?product_price__gte=${minPrice}`;
-    } else if (maxPrice !== '') {
-      endpoint += `?product_price__lte=${maxPrice}`;
+    if (debouncedFilters.minPrice !== '' && debouncedFilters.maxPrice !== '') {
+      endpoint += `?product_price__gte=${debouncedFilters.minPrice}&product_price__lte=${debouncedFilters.maxPrice}`;
+    } else if (debouncedFilters.minPrice !== '') {
+      endpoint += `?product_price__gte=${debouncedFilters.minPrice}`;
+    } else if (debouncedFilters.maxPrice !== '') {
+      endpoint += `?product_price__lte=${debouncedFilters.maxPrice}`;
     }
 
-    if (onSale) {
-      endpoint += `${endpoint.includes('?') ? '&' : '?'}product_price_sale__gt=0`;
-    }
-
-    if (selectedCategory) {
-      endpoint += `${endpoint.includes('?') ? '&' : '?'}category=${selectedCategory}`;
-    }
-
-    if (searchQuery) {
-      endpoint += `${endpoint.includes('?') ? '&' : '?'}product_name=${searchQuery}`;
+    if (debouncedFilters.searchQuery) {
+      endpoint += `${endpoint.includes('?') ? '&' : '?'}product_name=${debouncedFilters.searchQuery}`;
     }
 
     axios.get(endpoint).then((response) => {
@@ -242,8 +234,8 @@ export default function CustomerProductPage() {
         <TextField className="price-filter"
           label="Minimum Price"
           type="number"
-          value={minPrice}
-          onChange={(e) => setMinPrice(e.target.value)}
+          value={filters.minPrice}
+          onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
           sx={{
             display: 'flex',
             position: 'absolute',
@@ -255,8 +247,8 @@ export default function CustomerProductPage() {
         <TextField className="price-filter"
           label="Max Price"
           type="number"
-          value={maxPrice}
-          onChange={(e) => setMaxPrice(e.target.value)}
+          value={filters.maxPrice}
+          onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
           sx={{
             display: 'flex',
             position: 'absolute',
@@ -287,8 +279,8 @@ export default function CustomerProductPage() {
         <input
           type='search'
           placeholder="search.."
-          value={searchQuery}
-          onChange={e => setsearchQuery(e.target.value)}
+          value={filters.searchQuery}
+          onChange={(e) => setFilters({ ...filters, searchQuery: e.target.value })}
         />
 
 
