@@ -5,6 +5,10 @@
   background-color: #14192F;
 }
 
+.hide {
+  display: none;
+}
+
 html {
   background-color: #14192F;
 

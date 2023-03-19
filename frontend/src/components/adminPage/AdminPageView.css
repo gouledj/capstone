@@ -18,3 +18,11 @@
 .css-hip9hq-MuiPaper-root-MuiAppBar-root {
   background-color: #14192F !important;
 }
+
+.signOutButton {
+  background-color: None !important;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root {
+  background-color: transparent !important;
+}

@@ -113,6 +113,8 @@ export default function CustomerProductPage() {
     setOpen(false);
   };
 
+
+
   const updateProductInfo = () => {
     if (buttonClicked) {
       const updatedProduct = {
@@ -162,6 +164,11 @@ export default function CustomerProductPage() {
     setButtonClicked(false);
     setEditInputLabels(false);
     setOpen(false);
+  }
+
+  const signInDiv = document.getElementById('signInDiv');
+  if (signInDiv) {
+    signInDiv.hidden = true;
   }
 
   const showproductClick = (productClicked) => {

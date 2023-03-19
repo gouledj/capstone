@@ -13,6 +13,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import '../adminPage/AdminPageView.css'
+import { useNavigate } from 'react-router-dom';
+
 
 const pages = [
   {
@@ -28,11 +30,13 @@ const pages = [
     link: '/orders'
   }
 ];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Account', 'Dashboard'];
 
 function CustomerPageNavbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate(); // add useNavigate hook
+
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -49,6 +53,11 @@ function CustomerPageNavbar() {
     setAnchorElUser(null);
   };
 
+  const handleSignOut = (e) => {
+    localStorage.clear()
+    navigate('/'); // redirect to homepage
+  }
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -64,6 +73,8 @@ function CustomerPageNavbar() {
                 {page.name}
               </Button>
             ))}
+
+            <Button className="signOutButton" variant="contained" onClick={(e) => handleSignOut(e)}>Sign Out Button</Button>
           </Box>
         </Toolbar>
       </Container>
