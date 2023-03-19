@@ -18,17 +18,16 @@ import Slide from '@mui/material/Slide';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 
 import useDebounce from '../hooks/use-debounce.js';
+import FilterSideBar from './FilterSidebar.js'
 
 
 
 // frontend / src / components / products / AddProduct.js
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="down" ref={ref} {...props} />;
-});
 
 const ariaLabel = { 'aria-label': 'description' };
 
@@ -53,20 +52,25 @@ export default function CustomerProductPage() {
   const [productPriceSale, setproductPriceSale] = useState(null);
   const [productWeight, setproductWeight] = useState(null);
   const [productHeight, setproductHeight] = useState(null);
-
-
-
   const [productClickedInfo, setproductClickedInfo] = useState({});
-
   const [EditInputLabels, setEditInputLabels] = useState(false)
-
   const [buttonClicked, setButtonClicked] = useState(false);
-
-  const debounce = useDebounce(searchQuery, 500)
-
   const [selectedCategory, setSelectedCategory] = useState();
 
 
+
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
+  const [onSale, setOnSale] = useState(false);
+
+  const [filters, setFilters] = useState({
+    minPrice: '',
+    maxPrice: '',
+    onSale: false,
+  });
+
+  const [checked, setChecked] = useState(false);
+  const debounce = useDebounce(searchQuery, 300)
 
 
   useEffect(() => {
@@ -74,29 +78,40 @@ export default function CustomerProductPage() {
 
   }, [debounce])
 
-
   const fetchData = async () => {
+    let endpoint = `${url}/Products`;
 
-    const endpoint = `${url}/Products?product_name=${searchQuery}`
+    if (minPrice !== '' && maxPrice !== '') {
+      endpoint += `?product_price__gte=${minPrice}&product_price__lte=${maxPrice}`;
+    } else if (minPrice !== '') {
+      endpoint += `?product_price__gte=${minPrice}`;
+    } else if (maxPrice !== '') {
+      endpoint += `?product_price__lte=${maxPrice}`;
+    }
 
-    axios.get(endpoint)
-      .then((response) => {
-        setProducts(response.data);
-        setLoad(true);
+    if (onSale) {
+      endpoint += `${endpoint.includes('?') ? '&' : '?'}product_price_sale__gt=0`;
+    }
 
-      })
-  }
+    if (selectedCategory) {
+      endpoint += `${endpoint.includes('?') ? '&' : '?'}category=${selectedCategory}`;
+    }
+
+    if (searchQuery) {
+      endpoint += `${endpoint.includes('?') ? '&' : '?'}product_name=${searchQuery}`;
+    }
+
+    axios.get(endpoint).then((response) => {
+      setProducts(response.data);
+      setLoad(true);
+    });
+  };
+
+
 
   console.log(products)
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
-  const exitProductAdd = () => {
-    setOpen(false);
-    setproductClick(false);
-  }
 
   //when product is clicked
   const editFields = () => {
@@ -105,6 +120,11 @@ export default function CustomerProductPage() {
     console.log("PRESS")
 
   };
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
+
 
   const handleClose = () => {
 
@@ -203,6 +223,62 @@ export default function CustomerProductPage() {
   }
 
 
+  const sidebarFilter = () => {
+
+    return (
+      <>
+
+
+        <div style={{ display: 'inline-flex', alignItems: 'center', position: "absolute", left: "25px", top: "200px" }}>
+          <p style={{ margin: 0, marginRight: '8px' }}>On Sale</p>
+          <Checkbox
+            checked={checked}
+            onChange={handleChange}
+            inputProps={{ 'aria-label': 'primary checkbox' }}
+            labelPlacement="start"
+          />
+        </div>
+
+        <TextField className="price-filter"
+          label="Minimum Price"
+          type="number"
+          value={minPrice}
+          onChange={(e) => setMinPrice(e.target.value)}
+          sx={{
+            display: 'flex',
+            position: 'absolute',
+            left: '15px',
+            top: '300px'
+          }}
+        />
+
+        <TextField className="price-filter"
+          label="Max Price"
+          type="number"
+          value={maxPrice}
+          onChange={(e) => setMaxPrice(e.target.value)}
+          sx={{
+            display: 'flex',
+            position: 'absolute',
+            left: '15px',
+            top: '385px'
+          }}
+        />
+
+
+
+
+      </>
+
+
+
+    )
+
+
+
+  }
+
+
 
   // console.log(products)
   return (
@@ -217,6 +293,7 @@ export default function CustomerProductPage() {
 
 
       </div>
+      {sidebarFilter()}
       <div class="straight-line"></div>
 
       <div className='item-flex'>

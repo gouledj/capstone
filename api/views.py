@@ -31,10 +31,15 @@ class ProductView(viewsets.ModelViewSet):
     def get_queryset(self):
         qs = Products.objects.all()
         product_name = self.request.query_params.get('product_name')
-        if  product_name is not None:
+        if product_name is not None:
             qs = qs.filter(product_name__icontains=product_name)
+        min_price = self.request.query_params.get('product_price__gte')
+        max_price = self.request.query_params.get('product_price__lte')
+        if min_price is not None:
+            qs = qs.filter(product_price__gte=min_price)
+        if max_price is not None:
+            qs = qs.filter(product_price__lte=max_price)
         return qs
-
 
        
 
