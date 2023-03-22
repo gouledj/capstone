@@ -221,57 +221,37 @@ export default function CustomerProductPage() {
   }
 
 
-
   const ShoppingCartFunc = (id) => {
-    const selectedProduct1 = products[id];
-    const cartItem = addCartProduct.find((product) => product.id === id);
-    if (cartItem) {
-      const updatedCart = addCartProduct.map((product) =>
-        product.id === id ? { ...product, quantity: product.quantity + 1 } : product
-      );
-      setAddCartProduct(updatedCart);
-    } else {
-      const newProduct = {
-        ...selectedProduct1,
-        quantity: 1 // set quantity to 1
-      };
-      setAddCartProduct([...addCartProduct, newProduct]);
-    }
+    console.log("ID")
+    console.log(id)
+    const selectedProduct = products[id];
+    const newProduct = {
+      ...selectedProduct,
+      id: Date.now(), // generate a unique id value
+      quantity: 1, // initialize the quantity to 1
+    };
+    setAddCartProduct((prevProducts) => [...prevProducts, newProduct]);
+    console.log(addCartProduct)
   };
 
-  const incrementQuantity = (id) => {
-    const index = addCartProduct.findIndex((product) => product.id === id);
-    const updatedProduct = {
-      ...addCartProduct[index],
-      quantity: addCartProduct[index].quantity + 1,
-    };
-    const updatedCart = [
-      ...addCartProduct.slice(0, index),
-      updatedProduct,
-      ...addCartProduct.slice(index + 1),
-    ];
+  const updateQuantity = (id, quantity) => {
+    const updatedCart = addCartProduct.map((product) => {
+      if (product.id === id) {
+        return { ...product, quantity };
+      } else {
+        return product;
+      }
+    });
     setAddCartProduct(updatedCart);
   };
 
-  const decrementQuantity = (id) => {
-    const index = addCartProduct.findIndex((product) => product.id === id);
-    const updatedProduct = {
-      ...addCartProduct[index],
-      quantity: addCartProduct[index].quantity - 1,
-    };
-    const updatedCart = [
-      ...addCartProduct.slice(0, index),
-      updatedProduct,
-      ...addCartProduct.slice(index + 1),
-    ];
-    setAddCartProduct(updatedCart);
+  const getTotalPrice = () => {
+    return addCartProduct.reduce((total, product) => {
+      return total + product.product_price * product.quantity;
+    }, 0);
   };
 
 
-  // const removeFromCart = (productIndex) => {
-  //   const newCart = cart.filter((_, index) => index !== productIndex);
-  //   setCart(newCart);
-  // };
 
   return (
     <div className="item-gallery-box">
@@ -292,7 +272,11 @@ export default function CustomerProductPage() {
 
 
       <>
-        <IconButton sx={{ position: "absolute", top: '15px', left: '1350px' }} onClick={() => setCartOpen(true)} color="inherit">
+        <IconButton
+          sx={{ position: "absolute", top: '15px', left: '1350px' }}
+          onClick={() => setCartOpen(true)}
+          color="inherit"
+        >
           <Badge badgeContent={addCartProduct.length} color="error">
             <ShoppingCartIcon />
           </Badge>
@@ -301,34 +285,52 @@ export default function CustomerProductPage() {
           <div style={{ padding: '16px' }}>
             {addCartProduct.length === 0 ? (
               <p>Your cart is empty</p>
-
             ) : (
               <ul>
-                {addCartProduct && addCartProduct.map((product, index) => (
-                  <li key={index} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <h3>{product.product_name}</h3>
-                    <div className="product-information">
-                      <p>Price: ${product.product_price}</p>
-                      <div>
-                        <button onClick={() => decrementQuantity(product.id)}>-</button>
-                        <span>{product.quantity}</span>
-                        <button onClick={() => incrementQuantity(product.id)}>+</button>
+                <h2>Your Shopping Cart</h2>
+                {addCartProduct.map((product) => (
+                  <li key={product.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <h4>{product.product_name}</h4>
+                      <div className="product-information" style={{ display: 'flex', alignItems: 'center' }}>
+                        <div className="priceAndTotalShoppingCart" style={{ marginRight: '1rem' }}>
+                          <div className='shopping-cart-container' style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <div className='left-side-shopping-cart'>
+                              <p>Price: ${product.product_price.toFixed(2)}</p>
+                              <button className="shopping-cart-add-button" onClick={() => updateQuantity(product.id, product.quantity - 1)}>-</button>
+                              <span style={{ margin: '0 0.5rem', paddingLeft: '6rem', paddingRight: '6rem', }}>{product.quantity}</span>
+                            </div>
+                            <div className="right-side-shopping-cart">
+                              <p>Total: ${product.product_price.toFixed(2) * product.quantity}</p>
+                              <button className="shopping-cart-add-button" onClick={() => updateQuantity(product.id, product.quantity + 1)}>+</button>
+                            </div>
+                          </div>
+
+
+                          {/* <p>${product.product_price}</p>
+                          <button onClick={() => updateQuantity(product.id, product.quantity - 1)}>-</button>
+                          <span style={{ margin: '0 0.5rem' }}>{product.quantity}</span>
+                          <p>Total: ${product.product_price * product.quantity}</p>
+                          <button onClick={() => updateQuantity(product.id, product.quantity + 1)}>+</button> */}
+
+                        </div>
+                        <img className="product-img-shopping-cart" src={require('/src/productimages/' + product.image.substring(product.image.lastIndexOf('/') + 1))} style={{ maxWidth: '10rem', maxHeight: '10rem' }} />
                       </div>
-                      <p>Total: ${product.product_price * product.quantity}</p>
                     </div>
                   </li>
                 ))}
+
+
                 <hr />
                 <li style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  {/* <span>Total:</span>
-        <span>${total.toFixed(2)}</span> */}
+                  <span>Total:</span>
+                  <span>${getTotalPrice().toFixed(2)}</span>
                 </li>
               </ul>
             )}
           </div>
         </Drawer>
       </>
-
 
 
 
