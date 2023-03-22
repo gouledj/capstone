@@ -5,6 +5,8 @@ import './productSearch.css';
 import Box from '@mui/material/Box';
 import { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
+import ShoppingCart from './ShoppingCart';
+
 
 // frontend / src / components / products / ViewEditProduct.js
 
@@ -23,10 +25,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import useDebounce from '../hooks/use-debounce.js';
 import FilterSideBar from './FilterSidebar.js'
+import shoppingCartImage from './shopping_cart.png'
 
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import Badge from '@mui/material/Badge';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
-
-// frontend / src / components / products / AddProduct.js
 
 
 const ariaLabel = { 'aria-label': 'description' };
@@ -57,10 +62,14 @@ export default function CustomerProductPage() {
   const [buttonClicked, setButtonClicked] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState();
 
-
-
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
+
+  const [selectedProduct, setSelectedProduct] = useState({})
+  const [addCartProduct, setAddCartProduct] = useState([]);
+
+  const [cartOpen, setCartOpen] = useState(false);
+
 
   const [filters, setFilters] = useState({
     minPrice: '',
@@ -71,6 +80,12 @@ export default function CustomerProductPage() {
 
   const [checked, setChecked] = useState(false);
   const debouncedFilters = useDebounce(filters, 500);
+
+
+  const signInDiv = document.getElementById('signInDiv');
+  if (signInDiv) {
+    signInDiv.hidden = true;
+  }
 
 
   useEffect(() => {
@@ -103,8 +118,6 @@ export default function CustomerProductPage() {
 
   console.log(products)
 
-
-
   //when product is clicked
   const editFields = () => {
     setButtonClicked(true);
@@ -126,65 +139,9 @@ export default function CustomerProductPage() {
   };
 
 
-
-  const updateProductInfo = () => {
-    if (buttonClicked) {
-      const updatedProduct = {
-        product_id: productClickedInfo.productId,
-        product_name: productClickedInfo.productName,
-        product_description: productClickedInfo.productDescription,
-        product_quantity: productClickedInfo.productQuantity,
-        product_price: productClickedInfo.productPrice,
-        product_price_sale: productClickedInfo.productPriceSale,
-        product_weight: productClickedInfo.productWeight,
-        product_height: productClickedInfo.productHeight,
-        image: productClickedInfo.image
-      };
-
-      let form_data = new FormData();
-
-
-      form_data.append('product_name', productName);
-      form_data.append('product_description', productDescription);
-      form_data.append('product_quantity', productQuantity);
-      form_data.append('product_price', productPrice);
-      form_data.append('product_height', productHeight);
-      form_data.append('product_price_sale', 0)
-      form_data.append('product_weight', productWeight);
-      // form_data.append('image', fileurl, fileurl.name);
-
-      console.log(updatedProduct)
-
-      axios
-        .put(`http://127.0.0.1:8000/api/Products/${updatedProduct.product_id}/`, form_data, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
-        .then((response) => {
-          console.log(response);
-          const updatedProducts = [...products];
-          const index = updatedProducts.findIndex((product) => product.id === productClickedInfo.id);
-          updatedProducts[index] = response.data;
-          setProducts(updatedProducts);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-
-    setButtonClicked(false);
-    setEditInputLabels(false);
-    setOpen(false);
-  }
-
-  const signInDiv = document.getElementById('signInDiv');
-  if (signInDiv) {
-    signInDiv.hidden = true;
-  }
-
   const showproductClick = (productClicked) => {
-    const selectedProduct = products[productClicked];
+    setSelectedProduct(products[productClicked])
+
     console.log("SELECTED PRODUCT")
     console.log(selectedProduct)
     const imageShortenUrl = selectedProduct.image.substring(selectedProduct.image.lastIndexOf('/') + 1)
@@ -256,14 +213,7 @@ export default function CustomerProductPage() {
             top: '385px'
           }}
         />
-
-
-
-
       </>
-
-
-
     )
 
 
@@ -272,7 +222,57 @@ export default function CustomerProductPage() {
 
 
 
-  // console.log(products)
+  const ShoppingCartFunc = (id) => {
+    const selectedProduct1 = products[id];
+    const cartItem = addCartProduct.find((product) => product.id === id);
+    if (cartItem) {
+      const updatedCart = addCartProduct.map((product) =>
+        product.id === id ? { ...product, quantity: product.quantity + 1 } : product
+      );
+      setAddCartProduct(updatedCart);
+    } else {
+      const newProduct = {
+        ...selectedProduct1,
+        quantity: 1 // set quantity to 1
+      };
+      setAddCartProduct([...addCartProduct, newProduct]);
+    }
+  };
+
+  const incrementQuantity = (id) => {
+    const index = addCartProduct.findIndex((product) => product.id === id);
+    const updatedProduct = {
+      ...addCartProduct[index],
+      quantity: addCartProduct[index].quantity + 1,
+    };
+    const updatedCart = [
+      ...addCartProduct.slice(0, index),
+      updatedProduct,
+      ...addCartProduct.slice(index + 1),
+    ];
+    setAddCartProduct(updatedCart);
+  };
+
+  const decrementQuantity = (id) => {
+    const index = addCartProduct.findIndex((product) => product.id === id);
+    const updatedProduct = {
+      ...addCartProduct[index],
+      quantity: addCartProduct[index].quantity - 1,
+    };
+    const updatedCart = [
+      ...addCartProduct.slice(0, index),
+      updatedProduct,
+      ...addCartProduct.slice(index + 1),
+    ];
+    setAddCartProduct(updatedCart);
+  };
+
+
+  // const removeFromCart = (productIndex) => {
+  //   const newCart = cart.filter((_, index) => index !== productIndex);
+  //   setCart(newCart);
+  // };
+
   return (
     <div className="item-gallery-box">
       <div className="search-bar">
@@ -288,25 +288,73 @@ export default function CustomerProductPage() {
       {sidebarFilter()}
       <div class="straight-line"></div>
 
+      {/* below here is the shopping cart  */}
+
+
+      <>
+        <IconButton sx={{ position: "absolute", top: '15px', left: '1350px' }} onClick={() => setCartOpen(true)} color="inherit">
+          <Badge badgeContent={addCartProduct.length} color="error">
+            <ShoppingCartIcon />
+          </Badge>
+        </IconButton>
+        <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
+          <div style={{ padding: '16px' }}>
+            {addCartProduct.length === 0 ? (
+              <p>Your cart is empty</p>
+
+            ) : (
+              <ul>
+                {addCartProduct && addCartProduct.map((product, index) => (
+                  <li key={index} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <h3>{product.product_name}</h3>
+                    <div className="product-information">
+                      <p>Price: ${product.product_price}</p>
+                      <div>
+                        <button onClick={() => decrementQuantity(product.id)}>-</button>
+                        <span>{product.quantity}</span>
+                        <button onClick={() => incrementQuantity(product.id)}>+</button>
+                      </div>
+                      <p>Total: ${product.product_price * product.quantity}</p>
+                    </div>
+                  </li>
+                ))}
+                <hr />
+                <li style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  {/* <span>Total:</span>
+        <span>${total.toFixed(2)}</span> */}
+                </li>
+              </ul>
+            )}
+          </div>
+        </Drawer>
+      </>
+
+
+
+
+
       <div className='item-flex'>
         {products && products.map((item, id) => (
-          <div onClick={() => showproductClick(id)} key={id} className="product-details-list">
+
+          <div key={id} className="product-details-list">
+
             <div className="product-name">{item.product_name}</div>
             {/* <div className="product-description"> {item.product_description}</div> */}
-            <img className="product-img" src={require('/src/productimages/' + item.image.substring(item.image.lastIndexOf('/') + 1))} />
+            <img onClick={() => showproductClick(id)} className="product-img" src={require('/src/productimages/' + item.image.substring(item.image.lastIndexOf('/') + 1))} />
             <div className="product-price-map">{"$ " + item.product_price.toFixed(2)}</div>
             <div className="product-avaliable">{"Quantity: " + item.product_quantity}</div>
+            <button className="shopping-cart-button" onClick={() => ShoppingCartFunc(id)}>
+              <img className="shopping-cart-image" src={shoppingCartImage} />
+            </button>
 
-            {/* <div className="product-ships">{item.product_height}</div> */}
-            {/* <div className="product-avaliable">{item.product_available === "false" ? "true" : "Avaliable "}</div> */}
-            {/* background: #D9D9D9;
-mix-blend-mode: overlay;
-border-radius: 12px; */}
-            <Button variant="contained" color="primary" size="large" style={{ padding: '3px 10px', background: '#D9D9D9', mixBlendMode: 'overlay', marginTop: '1rem', color: 'black' }}>
+            <Button variant="contained" color="primary" size="large" style={{ padding: '3px 10px', background: '#D9D9D9', mixBlendMode: 'overlay', marginTop: '1rem', color: 'black', marginLeft: "8.5rem" }}>
               Buy Now
             </Button>
+
           </div>
+
         ))}
+        {/* {addCartProduct && <ShoppingCart prop={addCartProduct} />} */}
 
 
       </div>
@@ -358,9 +406,7 @@ border-radius: 12px; */}
             {buttonClicked ? "Changes Made" : "Make Changes"}
           </Button> */}
           {/* {buttonClicked ? "Changes Made" : "Make Changes"} */}
-          {buttonClicked ? (
-            <Button onClick={updateProductInfo} className="confirm-changes-button">Confirm Changes</Button>
-          ) : null}
+
           <Button className="edit-window-button" variant="contained" onClick={editFields}>
 
             {buttonClicked ? "" : "Edit Product Info"}
