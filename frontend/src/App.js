@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import jwt_decode from "jwt-decode"
 import Button from '@mui/material/Button';
 
+
 import {
   useNavigate,
   BrowserRouter as Router,
@@ -23,13 +24,17 @@ function App() {
   const navigate = useNavigate();
   const [onProductsPage, setOnProductsPage] = useState(false);
   const [showButton, setShowButton] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
+
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
       setOnProductsPage(true);
-      navigate('/products');
+      setAuthenticated(true);
+
+      // navigate('/products');
     }
 
     /* global google */
@@ -66,20 +71,28 @@ function App() {
     if (signInDiv) {
       signInDiv.hidden = true;
     }
+    setAuthenticated(true);
   }
+
+  function renderGoogleButton() {
+    if (showButton) {
+      return <div id="signInDiv"></div>;
+    }
+    return null;
+  }
+
+
 
 
   return (
     <div className="App">
-      {showButton && <div id="signInDiv"></div>}
-
       <Routes>
-        <Route path="/" />
-        <Route exact path="/admin-page" element={<AdminPageView />} />
+        <Route path="/" element={renderGoogleButton()} />
+        <Route exact path="/admin-page" element={authenticated ? <AdminPageView /> : renderGoogleButton()} />
         <Route exact path="/admin-customers" element={<AdminCustomerView />} />
         <Route exact path="/signin" element={<Signin />} />
         <Route exact path="/signup" element={<Signup />} />
-        <Route exact path="/products" element={<CustomerPage />} />
+        <Route exact path="/products" element={authenticated ? <CustomerPage /> : renderGoogleButton()} />
       </Routes>
     </div>
   );

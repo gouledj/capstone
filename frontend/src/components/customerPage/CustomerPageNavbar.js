@@ -24,11 +24,11 @@ const pages = [
   {
     name: 'Account',
     link: '/admin-customers'
-  },
-  {
-    name: 'Shopping Cart',
-    link: '/orders'
   }
+  // {
+  //   name: 'Shopping Cart',
+  //   link: '/orders'
+  // }
 ];
 const settings = ['Profile', 'Account', 'Dashboard'];
 

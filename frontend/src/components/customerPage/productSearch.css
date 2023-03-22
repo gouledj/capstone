@@ -14,6 +14,11 @@
   margin-top: 1rem;
 }
 
+.product-img-shopping-cart {
+  height: 120px;
+
+}
+
 .item-flex {
   display: flex;
   flex-direction: row;
@@ -149,4 +154,16 @@ body {
   display: flex;
   position: fixed;
   left: 60px;
+}
+
+.shopping-cart-image {
+  border-radius: 10px;
+  width: 35px;
+}
+
+.shopping-cart-button {
+  position: absolute;
+  display: inline-flex;
+  margin-top: 0.5rem;
+  margin-right: 4rem;
 }
