@@ -4,6 +4,8 @@ import AdminPageView from "./components/adminPage/AdminPageView.js";
 import AdminCustomerView from "./components/adminPage/AdminCustomerView.js";
 import Signup from "./components/loginPage/Signup.js";
 import CustomerPage from './components/customerPage/CustomerPage.js'
+import CustomerPurchasePage from './components/customerPage/CustomerPurchasePage.js'
+import AddressForm from './components/customerPage/AddressForm.js'
 import { useEffect, useState } from 'react'
 import jwt_decode from "jwt-decode"
 import Button from '@mui/material/Button';
@@ -64,7 +66,11 @@ function App() {
     setUser(userObject)
     localStorage.setItem("user", JSON.stringify(userObject)); // Store user object in localStorage
     setOnProductsPage(true); // Update onProductsPage state to true
-    navigate('/products');
+    const tempEmail = userObject.email
+    navigate('/products', { state: { tempEmail } });
+
+    // navigate("/purchase-page", { state: { addCartProduct } });
+
 
     // Remove sign-in button from DOM
     const signInDiv = document.getElementById('signInDiv');
@@ -93,6 +99,9 @@ function App() {
         <Route exact path="/signin" element={<Signin />} />
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/products" element={authenticated ? <CustomerPage /> : renderGoogleButton()} />
+        <Route exact path="/purchase-page" element={authenticated ? <CustomerPurchasePage /> : renderGoogleButton()} />
+
+
       </Routes>
     </div>
   );

@@ -5,10 +5,7 @@ from .models import Customer, Products, Cart, Types, Orders
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ('customer_id', 'firstName', 'lastName', 'customerPhone',
-                  'email', 'streetName', 'streetNumber','unit', 'postal_code', 'city','province',
-                  'orders', 'Cart'
-                  )
+        fields ='__all__'
 
 
 class ProductSerializer(serializers.ModelSerializer):
