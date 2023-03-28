@@ -1,0 +1,27 @@
+.navbar {
+    padding-bottom: 3rem;
+  }
+
+.linechart {
+    display:flexbox;
+    justify-content: left;
+    padding-left: 3rem;
+    padding-right: 30rem;
+    padding-bottom: 3rem;
+}
+
+.barchart {
+    display:flexbox;
+    justify-content: left;
+    padding-left: 3rem;
+    padding-right: 30rem;
+    padding-bottom: 3rem;
+}
+
+.association {
+    display:flexbox;
+    justify-content: left;
+    padding-left: 3rem;
+    padding-right: 30rem;
+    padding-bottom: 3rem;
+}

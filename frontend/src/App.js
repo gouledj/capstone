@@ -2,10 +2,11 @@ import './App.css';
 import Signin from "./components/loginPage/Signin.js";
 import AdminPageView from "./components/adminPage/AdminPageView.js";
 import AdminCustomerView from "./components/adminPage/AdminCustomerView.js";
+import DataAnalyticsView from './components/adminPage/DataAnalyticsView.js';
 import Signup from "./components/loginPage/Signup.js";
-import CustomerPage from './components/customerPage/CustomerPage.js'
-import { useEffect, useState } from 'react'
-import jwt_decode from "jwt-decode"
+import CustomerPage from './components/customerPage/CustomerPage.js';
+import { useEffect, useState } from 'react';
+import jwt_decode from "jwt-decode";
 import Button from '@mui/material/Button';
 
 
@@ -90,6 +91,7 @@ function App() {
         <Route path="/" element={renderGoogleButton()} />
         <Route exact path="/admin-page" element={authenticated ? <AdminPageView /> : renderGoogleButton()} />
         <Route exact path="/admin-customers" element={<AdminCustomerView />} />
+        <Route exact path="/data-analytics" element={<DataAnalyticsView />} />
         <Route exact path="/signin" element={<Signin />} />
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/products" element={authenticated ? <CustomerPage /> : renderGoogleButton()} />

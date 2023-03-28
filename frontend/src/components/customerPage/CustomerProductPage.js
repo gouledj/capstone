@@ -20,7 +20,9 @@ import Slide from '@mui/material/Slide';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import { FormControlLabel } from '@material-ui/core';
+import { FormControlLabel } from '@mui/material';
 
 
 import useDebounce from '../hooks/use-debounce.js';
@@ -184,7 +186,7 @@ export default function CustomerProductPage() {
             checked={checked}
             onChange={handleChange}
             inputProps={{ 'aria-label': 'primary checkbox' }}
-            labelPlacement="start"
+            labelplacement="start"
           />
         </div>
 
