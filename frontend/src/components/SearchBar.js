@@ -17,11 +17,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
-
-
-
-import ViewEditProducts from "/Users/gouledjeelal/Desktop/school/capstone/frontend/src/components/products/ViewEditProduct.js"
-
+//import ViewEditProducts from "/Users/gouledjeelal/Desktop/school/capstone/frontend/src/components/products/ViewEditProduct.js"
+import './products/ViewEditProduct.js';
 
 // frontend / src / components / products / AddProduct.js
 
