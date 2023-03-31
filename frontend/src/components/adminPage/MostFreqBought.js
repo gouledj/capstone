@@ -5,7 +5,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { v4 as uuidv4 } from 'uuid';
 import { Typography } from '@mui/material';
 
-function Association() {
+function MostFreqBought() {
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [orderProducts, setOrderProducts] = useState([]);
@@ -159,7 +159,7 @@ function Association() {
         color: 'primary.main',
       },
     }}>
-      <Typography variant="h4" style={{ color: 'white', paddingTop: 20, fontWeight: 'bold'}}>Product Associations</Typography>
+      <Typography variant="h4" style={{ color: 'white', paddingTop: 20, fontWeight: 'bold'}}>Most Commonly Bought Products</Typography>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -175,7 +175,7 @@ function Association() {
     </div>
   );
 }
-export default Association;
+export default MostFreqBought;
 
 function countListFrequency(lists) {
   const frequency = {};

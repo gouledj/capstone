@@ -2,7 +2,7 @@ import React from 'react';
 import './DataAnalyticsView.css';
 import BarChart from './BarChart.js';
 import LineChart from './LineChart.js';
-import Association from './Association.js';
+import MostFreqBought from './MostFreqBought.js';
 import AdminNavbar from './AdminNavbar.js';
 
 function DataAnalyticsView() {
@@ -21,8 +21,8 @@ function DataAnalyticsView() {
                 <BarChart/>
             </div>
 
-            <div className='association'>
-                <Association />
+            <div className='mostfreqbought'>
+                <MostFreqBought />
             </div>
 
         </>

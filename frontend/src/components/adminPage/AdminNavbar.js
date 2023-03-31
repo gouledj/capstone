@@ -17,7 +17,7 @@ import './AdminPageView.css'
 const pages = [
   {
     name: 'Data Analytics',
-    link: '#'
+    link: '/data-analytics'
   },
   {
     name: 'Customers',
