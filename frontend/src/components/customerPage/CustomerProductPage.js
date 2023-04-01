@@ -33,6 +33,7 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 
@@ -48,8 +49,11 @@ export default function CustomerProductPage() {
   const [load, setLoad] = useState(false);
   const [productClick, setproductClick] = useState(false);
   const [searchQuery, setsearchQuery] = useState("")
+  const [userEmail, setUserEmail] = useState(null);
+  const location = useLocation();
+  const { state } = location
 
-  //OnClick product view
+
 
   const [open, setOpen] = React.useState(false);
   const [productName, setproductName] = useState(null);
@@ -72,6 +76,8 @@ export default function CustomerProductPage() {
 
   const [cartOpen, setCartOpen] = useState(false);
 
+  const navigate = useNavigate();
+
 
   const [filters, setFilters] = useState({
     minPrice: '',
@@ -92,6 +98,8 @@ export default function CustomerProductPage() {
 
   useEffect(() => {
     fetchData()
+    setUserEmail(state)
+
 
   }, [debouncedFilters])
 
@@ -115,10 +123,6 @@ export default function CustomerProductPage() {
       setLoad(true);
     });
   };
-
-
-
-  console.log(products)
 
   //when product is clicked
   const editFields = () => {
@@ -144,8 +148,8 @@ export default function CustomerProductPage() {
   const showproductClick = (productClicked) => {
     setSelectedProduct(products[productClicked])
 
-    console.log("SELECTED PRODUCT")
-    console.log(selectedProduct)
+    // console.log("SELECTED PRODUCT")
+    // console.log(selectedProduct)
     const imageShortenUrl = selectedProduct.image.substring(selectedProduct.image.lastIndexOf('/') + 1)
 
     setproductName(selectedProduct.product_name)
@@ -222,30 +226,51 @@ export default function CustomerProductPage() {
 
   }
 
-
   const ShoppingCartFunc = (id) => {
-    console.log("ID")
-    console.log(id)
     const selectedProduct = products[id];
-    const newProduct = {
-      ...selectedProduct,
-      id: Date.now(), // generate a unique id value
-      quantity: 1, // initialize the quantity to 1
-    };
-    setAddCartProduct((prevProducts) => [...prevProducts, newProduct]);
-    console.log(addCartProduct)
+    const existingProductIndex = addCartProduct.findIndex(product => product.id === selectedProduct.id);
+
+    if (existingProductIndex !== -1) {
+      // product already exists in the cart, update its quantity
+      const updatedCart = addCartProduct.map((product, index) => {
+        if (index === existingProductIndex) {
+          return { ...product, quantity: product.quantity + 1 };
+        } else {
+          return product;
+        }
+      });
+      setAddCartProduct(updatedCart);
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+    } else {
+      // product doesn't exist in the cart, add it
+      const newProduct = {
+        ...selectedProduct,
+        id: Date.now(), // generate a unique id value
+        quantity: 1, // initialize the quantity to 1
+      };
+      setAddCartProduct((prevProducts) => [...prevProducts, newProduct]);
+      localStorage.setItem('cart', JSON.stringify([...addCartProduct, newProduct]));
+    }
   };
 
   const updateQuantity = (id, quantity) => {
-    const updatedCart = addCartProduct.map((product) => {
-      if (product.id === id) {
-        return { ...product, quantity };
-      } else {
-        return product;
-      }
-    });
-    setAddCartProduct(updatedCart);
+    const existingProductIndex = addCartProduct.findIndex(product => product.id === id);
+
+    if (existingProductIndex !== -1) {
+      // product already exists in the cart, update its quantity
+      const updatedCart = addCartProduct.map((product, index) => {
+        if (index === existingProductIndex) {
+          return { ...product, quantity };
+        } else {
+          return product;
+        }
+      });
+      setAddCartProduct(updatedCart);
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+    }
   };
+
+
 
   const getTotalPrice = () => {
     return addCartProduct.reduce((total, product) => {
@@ -253,6 +278,20 @@ export default function CustomerProductPage() {
     }, 0);
   };
 
+  useEffect(() => {
+    const cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
+    setAddCartProduct(cartItems);
+  }, []);
+
+
+  const goToPurchasePage = () => {
+    console.log("shopping  cart button")
+    console.log(addCartProduct)
+    navigate("/purchase-page", { state: { addCartProduct, userEmail } });
+
+
+
+  }
 
 
   return (
@@ -270,9 +309,6 @@ export default function CustomerProductPage() {
       {sidebarFilter()}
       <div class="straight-line"></div>
 
-      {/* below here is the shopping cart  */}
-
-
       <>
         <IconButton
           sx={{ position: "absolute", top: '15px', left: '1350px' }}
@@ -283,17 +319,20 @@ export default function CustomerProductPage() {
             <ShoppingCartIcon />
           </Badge>
         </IconButton>
-        <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
-          <div style={{ padding: '16px' }}>
+        <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)} >
+          <div style={{ padding: '16px', backgroundColor: "antiquewhite" }}>
             {addCartProduct.length === 0 ? (
               <p>Your cart is empty</p>
             ) : (
               <ul>
-                <h2>Your Shopping Cart</h2>
+                <div style={{ display: 'flex', justifyContent: "center" }}>
+                  <h2>Your Shopping Cart</h2>
+                </div>
+
                 {addCartProduct.map((product) => (
                   <li key={product.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                      <h4>{product.product_name}</h4>
+                      <h4 style={{ marginBottom: '-1rem' }}>{product.product_name}</h4>
                       <div className="product-information" style={{ display: 'flex', alignItems: 'center' }}>
                         <div className="priceAndTotalShoppingCart" style={{ marginRight: '1rem' }}>
                           <div className='shopping-cart-container' style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -307,14 +346,6 @@ export default function CustomerProductPage() {
                               <button className="shopping-cart-add-button" onClick={() => updateQuantity(product.id, product.quantity + 1)}>+</button>
                             </div>
                           </div>
-
-
-                          {/* <p>${product.product_price}</p>
-                          <button onClick={() => updateQuantity(product.id, product.quantity - 1)}>-</button>
-                          <span style={{ margin: '0 0.5rem' }}>{product.quantity}</span>
-                          <p>Total: ${product.product_price * product.quantity}</p>
-                          <button onClick={() => updateQuantity(product.id, product.quantity + 1)}>+</button> */}
-
                         </div>
                         <img className="product-img-shopping-cart" src={require('/src/productimages/' + product.image.substring(product.image.lastIndexOf('/') + 1))} style={{ maxWidth: '10rem', maxHeight: '10rem' }} />
                       </div>
@@ -322,20 +353,26 @@ export default function CustomerProductPage() {
                   </li>
                 ))}
 
-
                 <hr />
                 <li style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Total:</span>
+                  <span>Subtotal:</span>
                   <span>${getTotalPrice().toFixed(2)}</span>
                 </li>
+
+                <button className="shopping-cart-clear-button" onClick={() => { setAddCartProduct([]); localStorage.removeItem('cart'); }}>Clear Cart</button>
               </ul>
             )}
+
+
+            <div className="shopping-cart-order-button" onClick={goToPurchasePage} style={{ display: "flex", justifyContent: "center" }}>
+              <Button style={{ display: 'flex', color: "black" }} variant="contained">Proceed to Orders Page</Button>
+            </div>
+
           </div>
         </Drawer>
+
+
       </>
-
-
-
 
       <div className='item-flex'>
         {products && products.map((item, id) => (
@@ -374,7 +411,7 @@ export default function CustomerProductPage() {
             {/* product Name placeholder */}
             <div className="product-name-tag">
               <h4 className="product-name">Product Name:</h4>
-              <Input onChange={e => setproductName(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Product Name" label="Test" defaultValue={productClickedInfo.productName} />
+              <Input className="product-name-input" onChange={e => setproductName(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Product Name" label="Test" defaultValue={productClickedInfo.productName} />
             </div>
 
             {/* product price placeholder */}

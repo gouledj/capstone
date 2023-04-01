@@ -17,10 +17,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const pages = [
-  {
-    name: 'Orders',
-    link: '#'
-  },
+
   {
     name: 'Account',
     link: '/admin-customers'

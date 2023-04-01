@@ -1,0 +1,9 @@
+.cart-product {
+  display: flex;
+  justify-content: center;
+
+}
+
+.cart-product-details {
+  width: 300px;
+}
