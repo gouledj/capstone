@@ -6,20 +6,6 @@ class Types(models.Model):
     type_id = models.AutoField(primary_key=True)
     type_name = models.CharField(max_length=50)
 
-
-class Products(models.Model):
-    product_id = models.AutoField(primary_key=True)
-    product_name = models.CharField(max_length=80)
-    product_description = models.CharField(max_length=200)
-    product_quantity = models.IntegerField()
-    product_price = models.FloatField()
-    product_price_sale = models.FloatField()
-    product_available = models.BooleanField(default=True)
-    product_weight = models.FloatField()
-    product_height = models.FloatField()
-    image = models.ImageField(upload_to='frontend/src/productimages', blank=True)
-    type_foreign_key = models.ManyToManyField(Types, related_name="Types", blank=True )
-
 class Products(models.Model):
     product_id = models.AutoField(primary_key=True)
     product_name = models.CharField(max_length=80)
@@ -52,27 +38,13 @@ class Customer(models.Model):
     city = models.CharField(max_length=60)
     province = models.CharField(max_length=60)
     country = models.CharField(max_length=60)
-    orders = models.ManyToManyField('Orders', related_name="Orders", blank=True)
-    Cart = models.OneToOneField(Cart, related_name="Cart", default='', blank=True, null=True, on_delete=models.CASCADE)
+
     
 class Orders(models.Model):
     order_id = models.AutoField(primary_key=True)
     order_time = models.DateTimeField(auto_now_add=True, blank=True)
     order_total = models.FloatField(default=0.00, validators=[MinValueValidator(0.00)])
-    # product = models.ForeignKey(Products,related_name="orders", on_delete=models.CASCADE)
     customer = models.ForeignKey('Customer', related_name='Orders', default='', on_delete=models.CASCADE)
-    order_product = models.ManyToManyField('OrderProduct')
+    products = models.CharField(blank=True, max_length=255)
+
     order_status = models.BooleanField(default=False)
-
-# class Item_Orders(models.Model):
-#     item_order_id = models.AutoField(primary_key=True)
-#     item_order_quantity = models.IntegerField()
-#     item_order_price =models.FloatField()
-
-class OrderProduct(models.Model):
-    # order = models.ForeignKey(Orders,related_name='orderproducts', on_delete=models.CASCADE)
-    product = models.ForeignKey(Products, related_name='orderproducts', on_delete=models.CASCADE)
-    customer = models.ForeignKey('Customer', related_name="orderproducts", default='', on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
-    status = models.BooleanField(default=False)
-

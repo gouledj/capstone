@@ -30,7 +30,7 @@ const steps = ['Shipping address', 'Review your order'];
 
 const customerUrl = "http://127.0.0.1:8000/api/Customer/"
 const productsUrl = "http://127.0.0.1:8000/api/Products/"
-const ordersurl = "http://127.0.0.1:8000/api/Orders/"
+const ordersUrl = "http://127.0.0.1:8000/api/Orders/"
 
 
 
@@ -62,38 +62,36 @@ export default function CustomerPurchasePage() {
   const [LoggedInEmail, setLoggedInEmail] = useState(null)
   const [load, setLoad] = useState(false)
 
+  const [customerID, setCustomerID] = useState(null);
 
-  console.log(state.addCartProduct)
+
+  // console.log(state.addCartProduct)
 
 
 
   useEffect(() => {
-    fetchData()
+    fetchData();
+  }, []);
 
-
-  }, [])
+  useEffect(() => {
+    if (customerData.length > 0 && activeStep === 1) {
+      console.log("add customer !")
+      addCustomerToDB(firstName, lastName, LoggedInEmail, address1, city, "AC", zip, country);
+    }
+  }, [customerData, activeStep]);
 
   const fetchData = async () => {
 
     axios.get(customerUrl).then((response) => {
       setCustomerData(response.data);
-      setLoggedInEmail(state.userEmail.tempEmail + '1')
+      const userEmail = window.localStorage.getItem('user');
+      console.log("PURCHASE  PAGE EMAIL COMP")
+      console.log(userEmail)
+      setLoggedInEmail(userEmail)
       setLoad(true);
     });
   };
 
-  // console.log("CUSTOMER DATA")
-  // console.log(customerData)
-
-  // console.log("LOGGED IN")
-  // console.log(LoggedInEmail)
-  // if (LoggedInEmail) {
-  //   console.log("email?")
-  //   console.log(LoggedInEmail)
-  // }
-
-  // console.log("state after?")
-  // console.log(state)
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -109,6 +107,7 @@ export default function CustomerPurchasePage() {
       return total + product.product_price * product.quantity;
     }, 0);
   };
+
 
   function handleFormDataChange(formData) {
     setFirstName(formData.firstName);
@@ -199,51 +198,88 @@ export default function CustomerPurchasePage() {
   };
 
 
-  const createAndPostOrder = () => {
+  const createAndPostOrder = (purchase) => {
+    console.log(purchase);
+    console.log("ORDER METHOD");
+    console.log(customerID);
 
-  }
+    let form_data = new FormData();
 
+    const totalPrice = getTotalPrice();
+    console.log("CURRENT TOTAL");
+    console.log(totalPrice);
 
+    form_data.append('order_total', totalPrice);
 
-
-  const addCustomerToDB = (firstName, lastName, LoggedInEmail, address1, city, state, zip, country) => {
-    console.log("TESTTTTTT")
-    console.log(LoggedInEmail)
-    const existingCustomer = customerData.find((customer) => customer.email === LoggedInEmail);
-
-    if (existingCustomer) {
-      console.log(`Customer with email ${LoggedInEmail} already exists`);
-      return;
-    }
-
-    axios.post(customerUrl, {
-      firstName: firstName,
-      lastName: lastName,
-      email: LoggedInEmail,
-      address_line: address1,
-      postal_code: zip,
-      city: city,
-      province: state,
-      country: country
-    }).then((response) => {
-      console.log(response.data)
-    }).catch((error) => {
-      console.log(error)
+    // create an array of product IDs and quantities
+    const productData = [];
+    purchase.forEach((product) => {
+      const data = [product.product_id, product.quantity];
+      productData.push(data);
     });
+    console.log("PRODUCT DATA");
+    console.log(productData);
+
+    form_data.append('products', JSON.stringify(productData));
+    form_data.append('order_status', true);
+    form_data.append('customer', customerID);
+
+    // make a POST request to the server using axios
+    axios.post(ordersUrl, form_data)
+      .then(response => console.log(response))
+      .catch(error => console.error(error));
   };
 
 
-  function handleApprove(data, actions) {
-    // Capture the funds from the transaction
-    return actions.order.capture().then(function (details) {
-      // Call addCustomerToDB method with the required parameters
-      addCustomerToDB(firstName, lastName, LoggedInEmail, address1, city, sstate, zip, country);
-      // Show success toast message
-      showToastMessage();
-      // Set payment status to 'success'
-      setPaymentStatus('success');
-    });
-  }
+
+
+
+  const addCustomerToDB = async (firstName, lastName, LoggedInEmail, address1, city, state, zip, country) => {
+    console.log("TESTTTTTT");
+    console.log(LoggedInEmail);
+    let existingCustomer = customerData.find((customer) => customer.email === LoggedInEmail);
+
+    if (existingCustomer) {
+      console.log(`Customer with email ${LoggedInEmail} already exists`);
+      console.log(existingCustomer);
+      var Idplaceholder = existingCustomer.customer_id;
+      console.log("PRINT ID PLACEHOLDER");
+      console.log(Idplaceholder);
+
+      setCustomerID(Idplaceholder);
+
+    } else {
+      if (LoggedInEmail) {
+        axios.post(customerUrl, {
+          firstName: firstName,
+          lastName: lastName,
+          email: LoggedInEmail,
+          address_line: address1,
+          postal_code: zip,
+          city: city,
+          province: state,
+          country: country
+        }).then((response) => {
+          console.log(response.data);
+          setCustomerID(response.data.customer_id);
+        })
+          .catch((error) => {
+            console.log(error);
+          });
+
+      }
+    }
+  };
+
+  // useEffect(() => {
+  //   console.log("Customer ID updated: ", customerID);
+  // }, [customerID]);
+
+
+  // if (customerID) {
+  //   console.log("UPDATE?")
+  //   console.log(customerID)
+  // }
 
 
 
@@ -308,15 +344,20 @@ export default function CustomerPurchasePage() {
                       const name = details.payer.name.given_name;
                       setPaymentStatus(details)
                       console.log("succcess")
-                      showToastMessage()
-                      addCustomerToDB(firstName, lastName, LoggedInEmail, address1, city, "AC", zip, country);
-                      updateProductInfo(state.addCartProduct)
+                      // addCustomerToDB(firstName, lastName, LoggedInEmail, address1, city, "AC", zip, country);
 
+                      // updateProductInfo(state.addCartProduct)
+
+                      console.log("ON APPROVE FUNCTION ID  ?")
+                      console.log(customerID)
+                      createAndPostOrder(state.addCartProduct)
                       alert("Purchase is succesfull, redirecting you back to Home screen")
+
                       navigate('/products')
 
 
                     }}
+
 
                   />
                 </PayPalScriptProvider>

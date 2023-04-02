@@ -36,7 +36,7 @@ export default function Review(props) {
         {state.addCartProduct.map((product) => (
           <ListItem key={product.product_id} sx={{ py: 1, px: 0 }}>
             <ListItemText className="checkout-description" primary={product.product_name} secondary={product.product_description} sx={{ width: '350px' }} />
-            <Typography variant="body2">{product.product_price + "$ x" + product.product_quantity}</Typography>
+            <Typography variant="body2">{product.product_price + "$ x" + product.quantity}</Typography>
           </ListItem>
         ))}
 
@@ -48,7 +48,7 @@ export default function Review(props) {
         </ListItem>
       </List>
       <Grid container spacing={2}>
-        <Grid style={{ display: 'flex', flexDirection:"column", justifyContent: 'center', paddingLeft:"10rem"}}>
+        <Grid style={{ display: 'flex', flexDirection: "column", justifyContent: 'center', paddingLeft: "10rem" }}>
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
             Shipping Address
           </Typography>
