@@ -65,7 +65,7 @@ function App() {
   function handleCallbackResponse(response) {
     var userObject = jwt_decode(response.credential)
     setUser(userObject)
-    localStorage.setItem("user", JSON.stringify(userObject)); // Store user object in localStorage
+    localStorage.setItem("user", JSON.stringify(userObject.email));
     setOnProductsPage(true); // Update onProductsPage state to true
     const tempEmail = userObject.email
     navigate('/products', { state: { tempEmail } });
