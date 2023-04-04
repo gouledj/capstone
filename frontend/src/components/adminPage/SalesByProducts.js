@@ -67,7 +67,7 @@ function SalesByProducts() {
       {
         label: 'Product Sales',
         data: Object.values(productSales),
-        backgroundColor: "rgba(47, 225, 185, 0.6)",
+        backgroundColor: "rgba(47, 225, 185, 0.9)",
         borderWidth: 4,
       },
     ],

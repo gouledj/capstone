@@ -41,7 +41,7 @@ const ProductSalesChart = () => {
         label: 'Total Sales by Date',
         data: [],
         fill: false,
-        borderColor: 'rgba(47, 225, 185, 0.6)',
+        borderColor: 'rgba(47, 225, 185, 0.9)',
         tension: 0.1,
         borderWidth: 5
     }]
