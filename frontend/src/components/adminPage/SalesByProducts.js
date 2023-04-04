@@ -41,7 +41,6 @@ function SalesByProducts() {
   const productSales = {};
 
   filteredOrders.forEach((order) => {
-    // console.log(order.products);
       const formattedStr = order.products.replace(/[\[\]]/g, '');
       const stringArr = formattedStr.split(',');
       const intArr = stringArr.map(Number);
@@ -104,7 +103,7 @@ function SalesByProducts() {
         {
           ticks: {
             beginAtZero: true,
-            stepSize: 1,
+            stepSize: 5,
             fontColor: 'white',
             fontSize: 18,
           },scaleLabel: {

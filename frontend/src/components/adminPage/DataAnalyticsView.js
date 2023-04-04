@@ -10,7 +10,7 @@ function DataAnalyticsView() {
     return (
         <>
             <div className='navbar'>
-          <AdminNavbar/>
+                <AdminNavbar/>
             </div>
 
             <div className='product-sales-chart'>
