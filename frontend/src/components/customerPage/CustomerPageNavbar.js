@@ -20,7 +20,7 @@ const pages = [
 
   {
     name: 'Account',
-    link: '/admin-customers'
+    link: '/account'
   }
   // {
   //   name: 'Shopping Cart',

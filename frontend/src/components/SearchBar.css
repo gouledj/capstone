@@ -27,15 +27,15 @@
 
 .item-flex-search-bar {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   flex-wrap: wrap;
+  justify-content: flex-end;
   padding-left: 0;
-  max-width: 1590px;
-  position: absolute;
-  padding-top: 1rem;
   overflow: auto;
-  left: 100px;
-  top: 250px;
+  width: 1400px;
+  position: absolute;
+  top: 190px;
+  left: 200px;
 }
 
 .product-details-list {
@@ -48,6 +48,7 @@
   padding-left: 2rem;
   padding-right: 2rem;
   padding-bottom: 1rem;
+  cursor: pointer;
 }
 
 
@@ -61,8 +62,8 @@
 }
 
 .product-clicked-img {
-  max-width: 240px;
-  max-height: 300px;
+  width: 220px;
+  height: 220px;
   border-radius: 15px;
   position: absolute;
   top: 70px;
@@ -93,7 +94,7 @@ body {
 }
 
 .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation24.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
-  background: rgba(34, 36, 62, 0.75);
+  background: #343660 !important;
   border-radius: 30px;
   position: absolute;
   width: 992px !important;
@@ -131,10 +132,10 @@ body {
 }
 
 
-/* .css-1x51dt5-MuiInputBase-input-MuiInput-input.Mui-disabled {
+.css-1x51dt5-MuiInputBase-input-MuiInput-input.Mui-disabled {
   -webkit-text-fill-color: white !important;
 
-} */
+}
 
 .edit-window-button {
   background-color: rgb(47, 225, 185) !important;
@@ -253,4 +254,33 @@ body {
 
 .product-quantity {
   font-size: 16px;
+}
+
+.order {
+  border: 1px solid gray;
+  padding: 22px;
+  margin-bottom: 10px;
+  border-radius: 15px;
+  background-color: #343660
+}
+
+.customer {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.products {
+  margin-top: 5px;
+}
+
+.total {
+  margin-top: 5px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.orders {
+  height: 700px;
+  overflow: auto;
+  /* use "auto" instead of "scroll" to only show the scrollbar when necessary */
 }

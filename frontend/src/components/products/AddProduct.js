@@ -92,7 +92,7 @@ export default function AddProduct() {
 
   return (
     <div>
-      <Button variant="contained" onClick={handleClickOpen}>
+      <Button size='large' variant="contained" onClick={handleClickOpen} sx={{ backgroundColor: "rgb(47, 225, 185)", fontWeight: "bold", marginRight: '1rem', color: 'black' }}>
         Add Product
       </Button>
       <Dialog
@@ -140,6 +140,6 @@ export default function AddProduct() {
           <Button onClick={handleClose}>Add Product</Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </div >
   );
 }

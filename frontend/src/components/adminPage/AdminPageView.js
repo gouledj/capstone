@@ -57,10 +57,11 @@ function AdminPageView() {
       </div>
       {/* <Button className="add-product"  variant="contained">Add a Product
       </Button> */}
-      <AddProduct className="add-product-button" />
 
 
-      <div className="product-list">
+
+      <div className="product-list" style={{ display: "flex", alignItems: "center", justifyContent: "center", marginLeft: "5.5rem" }}>
+        <AddProduct className="add-product-button" />
         <SearchBar />
 
         <div className="products">
