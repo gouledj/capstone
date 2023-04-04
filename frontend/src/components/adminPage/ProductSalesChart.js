@@ -41,8 +41,9 @@ const ProductSalesChart = () => {
         label: 'Total Sales by Date',
         data: [],
         fill: false,
-        borderColor: 'rgba(54, 162, 235, 0.6)',
-        tension: 0.1
+        borderColor: 'rgba(47, 225, 185, 0.6)',
+        tension: 0.1,
+        borderWidth: 5
     }]
     });
 
@@ -50,13 +51,13 @@ const ProductSalesChart = () => {
     <>
     <Typography variant="h4" style={{ color: 'white', paddingTop: 20, fontWeight: 'bold'}}>Sales Performance</Typography>
       <ButtonGroup
-        color="primary"
+        
         variant="contained"
         aria-label="contained secondary button group">
-            <Button onClick={() => handleClickButton(7)}>Week</Button>
-            <Button onClick={() => handleClickButton(30)}>Month</Button>
-            <Button onClick={() => handleClickButton(90)}>Quarter</Button>
-            <Button onClick={() => handleClickButton(365)}>Year</Button>
+            <Button sx={{ backgroundColor: "rgb(47, 225, 185)", color: 'white', marginRight: "0.5rem", fontWeight: "bold", ':hover': { backgroundColor: "rgb(47, 225, 185)" } }}  onClick={() => handleClickButton(7)}>Week</Button>
+            <Button sx={{ backgroundColor: "rgb(47, 225, 185)", color: 'white', marginRight: "0.5rem", fontWeight: "bold", ':hover': { backgroundColor: "rgb(47, 225, 185)" } }}  onClick={() => handleClickButton(30)}>Month</Button>
+            <Button sx={{ backgroundColor: "rgb(47, 225, 185)", color: 'white', marginRight: "0.5rem", fontWeight: "bold", ':hover': { backgroundColor: "rgb(47, 225, 185)" } }}  onClick={() => handleClickButton(90)}>Quarter</Button>
+            <Button sx={{ backgroundColor: "rgb(47, 225, 185)", color: 'white', marginRight: "0.5rem", fontWeight: "bold", ':hover': { backgroundColor: "rgb(47, 225, 185)" } }}  onClick={() => handleClickButton(365)}>Year</Button>
       </ButtonGroup>
       <Line data={chartData} options={options}/>
     </>
@@ -78,6 +79,7 @@ const options= {
     scales: {
       yAxes: [
         {
+          gridLines: { zeroLineColor: "white" },
           ticks: {
             beginAtZero: true,
             fontColor: 'white',
@@ -92,6 +94,7 @@ const options= {
       ],
       xAxes: [
         {
+          gridLines: { zeroLineColor: "white" },
           ticks: {
             fontColor: 'white',
             fontSize: 18,

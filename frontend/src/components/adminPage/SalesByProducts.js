@@ -67,7 +67,7 @@ function SalesByProducts() {
       {
         label: 'Product Sales',
         data: Object.values(productSales),
-        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        backgroundColor: "rgba(47, 225, 185, 0.6)",
         borderWidth: 4,
       },
     ],
@@ -81,11 +81,17 @@ function SalesByProducts() {
     color="primary"
     variant="contained"
     aria-label="contained secondary button group">
-    <Button onClick={() => handleClickButton(1)}>Today</Button>
+    {/* <Button onClick={() => handleClickButton(1)}>Today</Button>
     <Button onClick={() => handleClickButton(7)}>Week</Button>
     <Button onClick={() => handleClickButton(30)}>Month</Button>
     <Button onClick={() => handleClickButton(90)}>Quarter</Button>
-    <Button onClick={() => handleClickButton(365)}>Year</Button>
+    <Button onClick={() => handleClickButton(365)}>Year</Button> */}
+    <Button sx={{ backgroundColor: "rgb(47, 225, 185)", color: 'white', marginRight: "0.5rem", fontWeight: "bold", ':hover': { backgroundColor: "rgb(47, 225, 185)" } }}  onClick={() => handleClickButton(7)}>Today</Button>
+    <Button sx={{ backgroundColor: "rgb(47, 225, 185)", color: 'white', marginRight: "0.5rem", fontWeight: "bold", ':hover': { backgroundColor: "rgb(47, 225, 185)" } }}  onClick={() => handleClickButton(7)}>Week</Button>
+    <Button sx={{ backgroundColor: "rgb(47, 225, 185)", color: 'white', marginRight: "0.5rem", fontWeight: "bold", ':hover': { backgroundColor: "rgb(47, 225, 185)" } }}  onClick={() => handleClickButton(30)}>Month</Button>
+    <Button sx={{ backgroundColor: "rgb(47, 225, 185)", color: 'white', marginRight: "0.5rem", fontWeight: "bold", ':hover': { backgroundColor: "rgb(47, 225, 185)" } }}  onClick={() => handleClickButton(90)}>Quarter</Button>
+    <Button sx={{ backgroundColor: "rgb(47, 225, 185)", color: 'white', marginRight: "0.5rem", fontWeight: "bold", ':hover': { backgroundColor: "rgb(47, 225, 185)" } }}  onClick={() => handleClickButton(365)}>Year</Button>
+
   </ButtonGroup>
   <Bar 
   data={mydata} 
@@ -101,6 +107,7 @@ function SalesByProducts() {
     scales: {
       yAxes: [
         {
+          gridLines: { zeroLineColor: "white" },
           ticks: {
             beginAtZero: true,
             stepSize: 5,
@@ -116,6 +123,7 @@ function SalesByProducts() {
       ],
       xAxes: [
         {
+          gridLines: { zeroLineColor: "white" },
           ticks: {
             fontColor: 'white',
             fontSize: 18,

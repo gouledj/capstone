@@ -31,38 +31,38 @@ function PopularProductPairings() {
     const idArr = [];
     
     if (intArr.length > 3 && intArr.length %2 === 0) {
-      console.log("true");
+      // console.log("true");
       for (let i = 0; i < intArr.length; i += 2) {
         const myProduct = products.find((p) => p.product_id === intArr[i]);
         // idStr += myProduct.product_id + ", ";
         idArr.push(myProduct.product_id);
         // productStr += myProduct.product_name + ", ";
       }
-      console.log("idArr");
-      console.log(idArr);
+      // console.log("idArr");
+      // console.log(idArr);
       ordersByProd.push(idArr);
       // frequencies.push(idArr);
     }
   });
-  console.log("ordersByProd");
-  console.log(ordersByProd);
+  // console.log("ordersByProd");
+  // console.log(ordersByProd);
   const freq = countListFrequency(ordersByProd);
-  console.log(freq);
+  // console.log(freq);
 
   for (let i in freq) {
     // console.log(freq[i]); // 3 then 2 freq
     // console.log(i); // [1,2] then [1,2,3] productID
     const l = JSON.parse(i);
-    console.log("L below");
-    console.log(l);
+    // console.log("L below");
+    // console.log(l);
     var prodDict = {};
     var names = "";
     var ids = "";
     var total = 0;
     for (let j in l) {
-      console.log(l[j]);
+      // console.log(l[j]);
       const myProduct = products.find((p) => p.product_id === l[j]);
-      console.log(myProduct.product_name);
+      // console.log(myProduct.product_name);
       names += myProduct.product_name + ", ";
       ids += myProduct.product_id + ", ";
       total += myProduct.product_price;
@@ -76,16 +76,23 @@ function PopularProductPairings() {
     prodDict["freq"] = freq[i];
     // console.log(prodDict);
     frequencies.push(prodDict);
-    console.log("Done");
+    // console.log("Done");
   }
 
-  for (let i in frequencies) {
-    console.log(frequencies[i]);
-  }
+  // for (let i in frequencies) {
+  //   console.log(frequencies[i]);
+  // }
 
   const columns = [
         { field: 'ids', headerName: 'Product IDs', width: 200 },
-        { field: 'names', headerName: 'Product Names', width: 400},
+        { field: 'names', headerName: 'Product Names', width: 400,
+        renderCell: (params) => {
+          return (
+            <div style={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>
+              {params.value}
+            </div>
+          );
+        }},
         { field: 'sum', headerName: 'Group Price', width: 150 },
         { field: 'freq', headerName: 'Frequency', width: 150 },
       ];
@@ -115,6 +122,7 @@ function PopularProductPairings() {
         columns={columns}
         getRowId={(row) => row.id}
         autoHeight
+        
         sx={{
           fontSize: 18,
           '.css-rtrcn9-MuiTablePagination-root' : {
