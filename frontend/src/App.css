@@ -19,3 +19,39 @@ body {
   background-color: #14192F;
   margin: 0;
 }
+
+.google-button {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  /* set the top position to 50% */
+  left: 50%;
+  /* set the left position to 50% */
+  transform: translate(-50%, -50%);
+  /* use transform to center the button */
+}
+
+.login-image {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.image-placeholder {
+  background: url("./pmv-chamara-wy7OK3cFqAY-unsplash.jpg");
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+
+}
+
+
+.login-background {
+  background-color: white;
+  height: 100px;
+  display: block;
+}

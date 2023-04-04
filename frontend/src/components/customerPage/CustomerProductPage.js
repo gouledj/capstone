@@ -96,6 +96,8 @@ export default function CustomerProductPage() {
   }
 
 
+
+
   useEffect(() => {
     fetchData()
     setUserEmail(state)
@@ -184,7 +186,7 @@ export default function CustomerProductPage() {
       <>
 
 
-        <div style={{ display: 'inline-flex', alignItems: 'center', position: "absolute", left: "25px", top: "200px" }}>
+        {/* <div style={{ display: 'inline-flex', alignItems: 'center', position: "absolute", left: "25px", top: "200px" }}>
           <p style={{ margin: 0, marginRight: '8px' }}>On Sale</p>
           <Checkbox
             checked={checked}
@@ -192,7 +194,7 @@ export default function CustomerProductPage() {
             inputProps={{ 'aria-label': 'primary checkbox' }}
             labelplacement="start"
           />
-        </div>
+        </div> */}
 
         <TextField className="price-filter"
           label="Minimum Price"
@@ -221,9 +223,6 @@ export default function CustomerProductPage() {
         />
       </>
     )
-
-
-
   }
 
   const ShoppingCartFunc = (id) => {
@@ -288,8 +287,6 @@ export default function CustomerProductPage() {
     console.log("shopping  cart button")
     console.log(addCartProduct)
     navigate("/purchase-page", { state: { addCartProduct, userEmail } });
-
-
 
   }
 
@@ -448,10 +445,10 @@ export default function CustomerProductPage() {
           </Button> */}
           {/* {buttonClicked ? "Changes Made" : "Make Changes"} */}
 
-          <Button className="edit-window-button" variant="contained" onClick={editFields}>
+          {/* <Button className="edit-window-button" variant="contained" onClick={editFields}>
 
             {buttonClicked ? "" : "Edit Product Info"}
-          </Button>
+          </Button> */}
 
 
 
