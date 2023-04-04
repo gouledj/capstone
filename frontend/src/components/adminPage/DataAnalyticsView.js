@@ -1,8 +1,8 @@
 import React from 'react';
 import './DataAnalyticsView.css';
-import BarChart from './BarChart.js';
-import LineChart from './LineChart.js';
-import Association from './Association.js';
+import SalesByProducts from './SalesByProducts.js';
+import ProductSalesChart from './ProductSalesChart.js';
+import PopularProductPairings from './PopularProductPairings.js';
 import AdminNavbar from './AdminNavbar.js';
 
 function DataAnalyticsView() {
@@ -10,19 +10,19 @@ function DataAnalyticsView() {
     return (
         <>
             <div className='navbar'>
-          <AdminNavbar/>
+                <AdminNavbar/>
             </div>
 
-            <div className='linechart'>
-                <LineChart/>
+            <div className='product-sales-chart'>
+                <ProductSalesChart/>
             </div>
 
-            <div className='barchart'>
-                <BarChart/>
+            <div className='sales-by-products'>
+                <SalesByProducts/>
             </div>
 
-            <div className='association'>
-                <Association />
+            <div className='pairings'>
+                <PopularProductPairings />
             </div>
 
         </>

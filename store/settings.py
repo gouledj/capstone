@@ -104,7 +104,7 @@ DATABASES = {
         'NAME': 'storeData',
         'USER': 'root',
         'PASSWORD': 'MacEwan-315',
-        'HOST': '127.0.0.1',
+        'HOST': "127.0.0.1",
         'PORT': '3306',
     }
 }

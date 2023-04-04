@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import {Button, ButtonGroup, Typography} from '@mui/material';
 
-const OrderChart = () => {
+const ProductSalesChart = () => {
   const [orders, setOrders] = useState([]);
   const [timeRange, setTimeRange] = useState(7);
 
@@ -63,7 +63,7 @@ const OrderChart = () => {
   );
 };
 
-export default OrderChart;
+export default ProductSalesChart;
 
 const options= {
     responsive: true,
