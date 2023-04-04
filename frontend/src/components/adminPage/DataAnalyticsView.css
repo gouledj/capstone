@@ -2,7 +2,7 @@
     padding-bottom: 3rem;
   }
 
-.linechart {
+.sales-by-products {
     display:flexbox;
     justify-content: left;
     padding-left: 3rem;
@@ -10,7 +10,7 @@
     padding-bottom: 3rem;
 }
 
-.barchart {
+.product-sales-chart {
     display:flexbox;
     justify-content: left;
     padding-left: 3rem;
@@ -18,10 +18,10 @@
     padding-bottom: 3rem;
 }
 
-.association {
+.pairings {
     display:flexbox;
     justify-content: left;
-    padding-left: 3rem;
+    padding-left: 5rem;
     padding-right: 30rem;
     padding-bottom: 3rem;
 }
