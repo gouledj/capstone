@@ -10,8 +10,6 @@ import AddressForm from './components/customerPage/AddressForm.js'
 import { useEffect, useState } from 'react'
 import jwt_decode from "jwt-decode"
 import Button from '@mui/material/Button';
-
-
 import {
   useNavigate,
   BrowserRouter as Router,
@@ -20,8 +18,6 @@ import {
   Redirect,
 } from "react-router-dom";
 
-const google = window.google;
-
 function App() {
   const [user, setUser] = useState({})
   const navigate = useNavigate();
@@ -29,38 +25,42 @@ function App() {
   const [showButton, setShowButton] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
 
-
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
       setOnProductsPage(true);
       setAuthenticated(true);
-
-      // navigate('/products');
     }
 
-    /* global google */
-    google.accounts.id.initialize({
-      client_id: "1073496420594-0kami03n19dt19tanoo1cqhsalte1irl.apps.googleusercontent.com",
-      callback: handleCallbackResponse
-    })
-    google.accounts.id.renderButton(
-      document.getElementById('signInDiv'),
-      {
-        theme: "outline",
-        size: "large",
-        onSuccess: handleCallbackResponse,
-        onError: (error) => console.log(error),
-        onAutoLoadFinished: () => {
-          const signInDiv = document.getElementById('signInDiv');
-          if (signInDiv) {
-            signInDiv.classList.toggle('hide', onProductsPage);
+    const initializeGoogleAPI = () => {
+      if (window.google && window.google.accounts) {
+        window.google.accounts.id.initialize({
+          client_id: "1073496420594-0kami03n19dt19tanoo1cqhsalte1irl.apps.googleusercontent.com",
+          callback: handleCallbackResponse
+        });
+        window.google.accounts.id.renderButton(
+          document.getElementById('signInDiv'),
+          {
+            theme: "outline",
+            size: "large",
+            onSuccess: handleCallbackResponse,
+            onError: (error) => console.log(error),
+            onAutoLoadFinished: () => {
+              const signInDiv = document.getElementById('signInDiv');
+              if (signInDiv) {
+                signInDiv.classList.toggle('hide', onProductsPage);
+              }
+            }
           }
-        }
+        );
+      } else {
+        setTimeout(initializeGoogleAPI, 1000); // wait for Google API to load
       }
-    );
-  }, [])
+    }
+
+    initializeGoogleAPI();
+  }, [authenticated, onProductsPage]);
 
   function handleCallbackResponse(response) {
     var userObject = jwt_decode(response.credential)
@@ -69,11 +69,6 @@ function App() {
     setOnProductsPage(true); // Update onProductsPage state to true
     const tempEmail = userObject.email
     navigate('/products', { state: { tempEmail } });
-
-    // navigate("/purchase-page", { state: { addCartProduct } });
-
-
-    // Remove sign-in button from DOM
     const signInDiv = document.getElementById('signInDiv');
     if (signInDiv) {
       signInDiv.hidden = true;
@@ -83,7 +78,29 @@ function App() {
 
   function renderGoogleButton() {
     if (showButton) {
-      return <div id="signInDiv"></div>;
+      return (
+        <>
+
+          <div className="login-background">
+            <div className="image-placeholder"></div>
+
+            <div id="signInDiv" className="google-button">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  setShowButton(false);
+                }}
+              >
+                Login with Google
+              </Button>
+            </div>
+
+
+          </div>
+
+        </>
+      );
     }
     return null;
   }
@@ -91,9 +108,17 @@ function App() {
 
 
 
+
+
   return (
     <div className="App">
+
+      {/* <img className="login-image" src={require("./pmv-chamara-wy7OK3cFqAY-unsplash.jpg")} alt="Google login" /> */}
+
+
+
       <Routes>
+        <Route path="" element={renderGoogleButton()} />
         <Route path="/" element={renderGoogleButton()} />
         <Route exact path="/admin-page" element={authenticated ? <AdminPageView /> : renderGoogleButton()} />
         <Route exact path="/admin-customers" element={<AdminCustomerView />} />

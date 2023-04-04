@@ -17,6 +17,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
+import useDebounce from './hooks/use-debounce.js';
+import Checkbox from '@mui/material/Checkbox';
+
+
 //import ViewEditProducts from "/Users/gouledjeelal/Desktop/school/capstone/frontend/src/components/products/ViewEditProduct.js"
 import './products/ViewEditProduct.js';
 
@@ -29,6 +33,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const ariaLabel = { 'aria-label': 'description' };
+const url = "http://127.0.0.1:8000/api"
+const OrdersUrl = "http://127.0.0.1:8000/api/Orders/"
+const customerUrl = "http://127.0.0.1:8000/api/Customer/"
+const productsUrl = "http://127.0.0.1:8000/api/Products/"
 
 
 //Search bar functionality will handle search but also items that come up below, don't make another component for it.
@@ -50,6 +58,16 @@ export default function SearchBar() {
   const [productHeight, setproductHeight] = useState(null);
 
 
+  const [filters, setFilters] = useState({
+    minPrice: '',
+    maxPrice: '',
+    onSale: false,
+    searchQuery: ""
+  });
+
+  const [checked, setChecked] = useState(false);
+  const debouncedFilters = useDebounce(filters, 500);
+
 
   const [productClickedInfo, setproductClickedInfo] = useState({});
 
@@ -57,16 +75,69 @@ export default function SearchBar() {
 
   const [buttonClicked, setButtonClicked] = useState(false);
 
+  const [OrderData, setOrderData] = useState({})
+  const [customerData, setCustomerData] = useState({})
+  const [productData, setProductData] = useState({})
+
 
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/api/Products/")
-      .then((response) => {
-        setProducts(response.data);
-        setLoad(true);
+    fetchData()
 
-      })
-  }, [products])
+
+  }, [debouncedFilters])
+
+  const fetchData = async () => {
+    let endpoint = `${url}/Products`;
+
+    if (debouncedFilters.minPrice !== '' && debouncedFilters.maxPrice !== '') {
+      endpoint += `?product_price__gte=${debouncedFilters.minPrice}&product_price__lte=${debouncedFilters.maxPrice}`;
+    } else if (debouncedFilters.minPrice !== '') {
+      endpoint += `?product_price__gte=${debouncedFilters.minPrice}`;
+    } else if (debouncedFilters.maxPrice !== '') {
+      endpoint += `?product_price__lte=${debouncedFilters.maxPrice}`;
+    }
+
+    if (debouncedFilters.searchQuery) {
+      endpoint += `${endpoint.includes('?') ? '&' : '?'}product_name=${debouncedFilters.searchQuery}`;
+    }
+
+    axios.get(endpoint).then((response) => {
+      setProducts(response.data);
+      setLoad(true);
+    });
+  };
+
+
+
+  useEffect(() => {
+    fetchOrderData()
+    fetchCustomerData()
+    fetchProductData()
+  }, [])
+
+  const fetchOrderData = async () => {
+    axios.get(OrdersUrl).then((response) => {
+      setOrderData(response.data);
+      const userEmail = window.localStorage.getItem('user');
+
+    });
+  };
+  const fetchCustomerData = async () => {
+    axios.get(customerUrl).then((response) => {
+      setCustomerData(response.data);
+      const userEmail = window.localStorage.getItem('user');
+
+    });
+  };
+
+  const fetchProductData = async () => {
+    axios.get(productsUrl).then((response) => {
+      setProductData(response.data);
+      const userEmail = window.localStorage.getItem('user');
+
+    });
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -107,6 +178,8 @@ export default function SearchBar() {
       };
 
       let form_data = new FormData();
+      console.log(productName)
+      console.log(productDescription)
 
 
       form_data.append('product_name', productName);
@@ -116,6 +189,7 @@ export default function SearchBar() {
       form_data.append('product_height', productHeight);
       form_data.append('product_price_sale', 0)
       form_data.append('product_weight', productWeight);
+      console.log(form_data)
       // form_data.append('image', fileurl, fileurl.name);
 
       console.log(updatedProduct)
@@ -142,6 +216,127 @@ export default function SearchBar() {
     setEditInputLabels(false);
     setOpen(false);
   }
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
+
+  const SidebarFilter = () => {
+    const [showFilters, setShowFilters] = useState(false);
+    const [showOrders, setShowOrders] = useState(false);
+
+
+    const handleFiltersClick = () => {
+      setShowFilters(true);
+      setShowOrders(false);
+    };
+
+    const handleOrdersClick = () => {
+
+      setShowOrders(true);
+      setShowFilters(false);
+    };
+
+    const orderSideBar = () => {
+      const orders = OrderData.map(order => {
+        const customer = customerData.find(c => c.customer_id === order.customer);
+        if (customer) {
+          const { firstName, lastName } = customer;
+          const products = JSON.parse(order.products);
+          const productIds = products.map(([productId]) => productId);
+          const orderTotal = order.order_total;
+          const productsString = productIds.join(', ');
+
+          return (
+            <div className="order" key={order.order_id}>
+              <div className="customer">{firstName} {lastName}</div>
+              <div className="products">Product IDs: {productsString}</div>
+              <div className="total">Total: ${orderTotal}</div>
+            </div>
+          );
+        }
+      });
+
+      return <div className="orders">{orders}</div>;
+    };
+
+
+
+    //   console.log(customer)
+    //   return (
+    //     <div className="orders-side-bar">
+    //       <h2>Customer Orders</h2>
+    //       <p>{`${customer.firstName} ${customer.lastName}`}</p>
+    //       {orders.map(order => (
+    //         <div key={order.order_id}>
+    //           <p>Order Total: {order.order_total}</p>
+    //           <ul>
+    //             {JSON.parse(order.products).map(product => (
+    //               <li key={product[0]}>{`Product ID: ${product[0]} - Quantity: ${product[1]}`}</li>
+    //             ))}
+    //           </ul>
+    //         </div>
+    //       ))}
+    //     </div>
+    //   );
+    // }
+
+
+
+
+    return (
+      <>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: "absolute", left: "25px", top: "140px" }}>
+          <Button variant="contained" sx={{ backgroundColor: "rgb(47, 225, 185)", color: 'black', marginRight: "0.5rem", fontWeight: "bold", ':hover': { backgroundColor: "rgb(47, 225, 185)" } }} onClick={handleFiltersClick}>Filters</Button>
+          <Button variant="contained" sx={{ backgroundColor: "rgb(47, 225, 185)", color: 'black', fontWeight: "bold", ':hover': { backgroundColor: "rgb(47, 225, 185)" } }} onClick={handleOrdersClick}>Orders</Button>
+        </div>
+
+        {
+          showFilters && (
+            <>
+              <TextField
+                className="price-filter"
+                label="Minimum Price"
+                type="number"
+                value={filters.minPrice}
+                onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
+                sx={{
+                  display: 'flex',
+                  position: 'absolute',
+                  left: '15px',
+                  top: '300px'
+                }}
+              />
+
+              <TextField
+                className="price-filter"
+                label="Max Price"
+                type="number"
+                value={filters.maxPrice}
+                onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
+                sx={{
+                  display: 'flex',
+                  position: 'absolute',
+                  left: '15px',
+                  top: '385px'
+                }}
+              />
+            </>
+          )
+        }
+
+        {
+          showOrders && (
+            <div className="orders-sidebar" style={{ display: 'flex', position: 'absolute', left: '15px', top: '250px' }}>
+              {orderSideBar()}
+
+            </div>
+          )
+        }
+      </>
+    );
+  };
+
 
   const showproductClick = (productClicked) => {
     const selectedProduct = products[productClicked];
@@ -208,13 +403,20 @@ export default function SearchBar() {
   return (
     <div className="item-gallery-box">
       <div className="search-bar">
-        <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          sx={{ width: '1240px', backgroundColor: '#ECEBF1', borderRadius: '3rem' }}
-          renderInput={(params) => <TextField {...params} label="Search" />}
+        <input
+          type='search'
+          placeholder="search.."
+          value={filters.searchQuery}
+          onChange={(e) => setFilters({ ...filters, searchQuery: e.target.value })}
         />
+
+
       </div>
+
+      {SidebarFilter()}
+
+      <div class="straight-line"></div>
+
 
       <div className='item-flex-search-bar'>
         {products.map((item, id) => (
@@ -239,7 +441,12 @@ export default function SearchBar() {
             {/* product Name placeholder */}
             <div className="product-name-tag">
               <h4 className="product-name">Product Name:</h4>
-              <Input onChange={e => setproductName(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Product Name" label="Test" defaultValue={productClickedInfo.productName} />
+              <Input style={{
+                color: "white",
+                "&.Mui-disabled": {
+                  WebkitTextFillColor: "white !important"
+                }
+              }} onChange={e => setproductName(e.target.value)} disabled={!EditInputLabels} fullWidth={true} disableUnderline={true} placeholder="Product Name" label="Test" defaultValue={productClickedInfo.productName} />
             </div>
 
             {/* product price placeholder */}
