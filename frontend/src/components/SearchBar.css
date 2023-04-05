@@ -281,6 +281,10 @@ body {
 
 .orders {
   height: 700px;
-  overflow: auto;
-  /* use "auto" instead of "scroll" to only show the scrollbar when necessary */
+  overflow: scroll;
+}
+
+
+body::-webkit-scrollbar {
+  display: none;
 }

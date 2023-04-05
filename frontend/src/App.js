@@ -2,6 +2,7 @@ import './App.css';
 import Signin from "./components/loginPage/Signin.js";
 import AdminPageView from "./components/adminPage/AdminPageView.js";
 import AdminCustomerView from "./components/adminPage/AdminCustomerView.js";
+import AdminViewOrders from './components/adminPage/AdminViewOrders.js';
 import DataAnalyticsView from './components/adminPage/DataAnalyticsView.js';
 import Signup from "./components/loginPage/Signup.js";
 import CustomerPage from './components/customerPage/CustomerPage.js'
@@ -127,6 +128,8 @@ function App() {
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/products" element={authenticated ? <CustomerPage /> : renderGoogleButton()} />
         <Route exact path="/purchase-page" element={authenticated ? <CustomerPurchasePage /> : renderGoogleButton()} />
+        <Route exact path="/orders" element={authenticated ? <AdminViewOrders /> : renderGoogleButton()} />
+
 
 
       </Routes>
